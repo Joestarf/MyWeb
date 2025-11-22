@@ -6,69 +6,297 @@
     <title>粉丝画廊 - 孤独摇滚小站</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
+        /* 动态背景效果 */
+        .gallery-hero {
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.8) 0%, 
+                rgba(255, 182, 193, 0.8) 25%, 
+                rgba(255, 250, 205, 0.8) 25%, 
+                rgba(255, 250, 205, 0.8) 50%, 
+                rgba(173, 216, 230, 0.8) 50%, 
+                rgba(173, 216, 230, 0.8) 75%, 
+                rgba(255, 107, 107, 0.8) 75%, 
+                rgba(255, 107, 107, 0.8) 100%);
+            background-size: 200% 200%;
+            padding: 5rem 2rem;
+            text-align: center;
+            color: #2c3e50;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .gallery-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+        
+        .gallery-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .gallery-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .gallery-hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .gallery-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 动态粒子背景 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+            }
+        }
+        
+        /* 增强的分类按钮 */
         .gallery-categories {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
             gap: 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .category-btn {
             background: white;
             border: 2px solid #3498db;
             color: #3498db;
-            padding: 0.5rem 1.5rem;
+            padding: 0.8rem 1.8rem;
             border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
             font-weight: bold;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .category-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: #3498db;
+            transition: all 0.4s ease;
+            z-index: -1;
         }
         
         .category-btn.active,
         .category-btn:hover {
-            background: #3498db;
             color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
         }
         
+        .category-btn.active::before,
+        .category-btn:hover::before {
+            width: 100%;
+        }
+        
+        /* 为每个按钮添加对应的颜色 */
+        .category-btn[data-category="all"] {
+            border-color: #9b59b6;
+            color: #9b59b6;
+        }
+        
+        .category-btn[data-category="all"]::before {
+            background: #9b59b6;
+        }
+        
+        .category-btn[data-category="official"] {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+        
+        .category-btn[data-category="official"]::before {
+            background: #e74c3c;
+        }
+        
+        .category-btn[data-category="screenshot"] {
+            border-color: #3498db;
+            color: #3498db;
+        }
+        
+        .category-btn[data-category="screenshot"]::before {
+            background: #3498db;
+        }
+        
+        .category-btn[data-category="character"] {
+            border-color: #2ecc71;
+            color: #2ecc71;
+        }
+        
+        .category-btn[data-category="character"]::before {
+            background: #2ecc71;
+        }
+        
+        .category-btn[data-category="live"] {
+            border-color: #f39c12;
+            color: #f39c12;
+        }
+        
+        .category-btn[data-category="live"]::before {
+            background: #f39c12;
+        }
+        
+        /* 增强的画廊网格 */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
         }
         
         .gallery-item {
             background: white;
-            border-radius: 10px;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .gallery-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        
+        .gallery-image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
         }
         
         .gallery-image {
             width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover .gallery-image {
+            transform: scale(1.1);
+        }
+        
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.8), rgba(155, 89, 182, 0.8));
             display: flex;
             align-items: center;
             justify-content: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
             color: white;
             font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 1rem;
+            cursor: pointer;
+        }
+        
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
         }
         
         .gallery-info {
-            padding: 1rem;
+            padding: 1.5rem;
         }
         
         .gallery-title {
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 0.5rem;
+            font-size: 1.1rem;
         }
         
         .gallery-desc {
@@ -77,55 +305,121 @@
             line-height: 1.4;
         }
         
+        .gallery-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 0.8rem;
+        }
+        
+        /* 为每个分类标签添加对应的颜色 */
+        .gallery-item[data-category="official"] .gallery-category {
+            background: rgba(231, 76, 60, 0.1);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+        }
+        
+        .gallery-item[data-category="screenshot"] .gallery-category {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+            border: 1px solid rgba(52, 152, 219, 0.3);
+        }
+        
+        .gallery-item[data-category="character"] .gallery-category {
+            background: rgba(46, 204, 113, 0.1);
+            color: #2ecc71;
+            border: 1px solid rgba(46, 204, 113, 0.3);
+        }
+        
+        .gallery-item[data-category="live"] .gallery-category {
+            background: rgba(243, 156, 18, 0.1);
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.3);
+        }
+        
+        /* 粉丝作品区域 */
         .fan-art-section {
-            margin-top: 3rem;
-            padding-top: 2rem;
+            margin-top: 5rem;
+            padding-top: 3rem;
             border-top: 2px solid #ecf0f1;
+            position: relative;
         }
         
         .section-header {
             text-align: center;
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            position: relative;
         }
         
         .section-title {
             color: #2c3e50;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
         }
         
         .section-subtitle {
             color: #7f8c8d;
             max-width: 600px;
             margin: 0 auto;
+            line-height: 1.6;
         }
         
         .fan-art-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
         }
         
         .fan-art-item {
             background: white;
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+        
+        .fan-art-item:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .fan-art-image-container {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+            position: relative;
         }
         
         .fan-art-image {
             width: 100%;
-            height: 150px;
-            background: linear-gradient(135deg, #9b59b6, #3498db);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 0.9rem;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+            cursor: pointer;
+        }
+        
+        .fan-art-item:hover .fan-art-image {
+            transform: scale(1.1);
         }
         
         .fan-art-info {
-            padding: 0.8rem;
+            padding: 1rem;
             text-align: center;
         }
         
@@ -134,14 +428,146 @@
             color: #666;
         }
         
+        /* 灯箱效果 */
+        .lightbox {
+            display: none; /* 初始隐藏 */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lightbox-image {
+            max-width: 100%;
+            max-height: 80vh; /* 限制图片最大高度 */
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            object-fit: contain; /* 确保图片完整显示 */
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+
+        .lightbox-caption {
+            color: white;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+        
         .credit-note {
             text-align: center;
-            margin-top: 2rem;
-            padding: 1rem;
+            margin-top: 3rem;
+            padding: 1.5rem;
             background: #f8f9fa;
-            border-radius: 8px;
+            border-radius: 10px;
             color: #7f8c8d;
             font-size: 0.9rem;
+        }
+        
+        /* 加载动画 */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        .loading-dot {
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            background: #3498db;
+            border-radius: 50%;
+            animation: loading 1.5s infinite ease-in-out;
+        }
+        
+        .loading-dot:nth-child(2) {
+            animation-delay: 0.2s;
+            background: #e74c3c;
+        }
+        
+        .loading-dot:nth-child(3) {
+            animation-delay: 0.4s;
+            background: #2ecc71;
+        }
+        
+        @keyframes loading {
+            0%, 80%, 100% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            40% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .gallery-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .gallery-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .gallery-categories {
+                padding: 1rem;
+            }
+            
+            .category-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+            
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .fan-art-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                gap: 1rem;
+            }
         }
     </style>
 </head>
@@ -162,126 +588,262 @@
         </div>
     </nav>
 
-    <main class="container" style="padding: 2rem 0; min-height: 60vh;">
-        <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">粉丝画廊</h1>
-        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 800px; margin-left: auto; margin-right: auto;">
-            欣赏《孤独摇滚！》的精彩画面、官方艺术图以及粉丝们的创意作品。
-        </p>
-        
+    <section class="gallery-hero">
+        <div class="particles" id="particles"></div>
+        <div class="gallery-hero-content">
+            <h1>粉丝画廊</h1>
+            <p>欣赏《孤独摇滚！》的精彩画面、官方艺术图以及粉丝们的创意作品。</p>
+        </div>
+    </section>
+
+    <main class="container" style="padding: 0 0 3rem 0; min-height: 60vh;">
         <!-- 画廊分类 -->
         <div class="gallery-categories">
-            <button class="category-btn active">全部</button>
-            <button class="category-btn">官方海报</button>
-            <button class="category-btn">动画截图</button>
-            <button class="category-btn">角色特写</button>
-            <button class="category-btn">乐队现场</button>
+            <button class="category-btn active" data-category="all">全部</button>
+            <button class="category-btn" data-category="official">官方海报</button>
+            <button class="category-btn" data-category="screenshot">动画截图</button>
+            <button class="category-btn" data-category="character">角色特写</button>
+            <button class="category-btn" data-category="live">乐队现场</button>
         </div>
         
         <!-- 官方画廊 -->
-        <div class="gallery-grid">
-            <div class="gallery-item">
-                <div class="gallery-image">主视觉图</div>
+        <div class="gallery-grid" id="gallery-grid">
+            <!-- 官方海报 -->
+            <div class="gallery-item" data-category="official">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/official/main-visual.jpg" alt="动画主视觉图">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
                 <div class="gallery-info">
                     <div class="gallery-title">动画主视觉图</div>
                     <div class="gallery-desc">《孤独摇滚！》TV动画官方主视觉海报，展现了四位主角在舞台上的英姿。</div>
+                    <span class="gallery-category">官方海报</span>
                 </div>
             </div>
             
-            <div class="gallery-item">
-                <div class="gallery-image">角色海报</div>
+            <div class="gallery-item" data-category="official">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/official/hitori-poster.jpg" alt="后藤一里角色海报">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
                 <div class="gallery-info">
                     <div class="gallery-title">后藤一里角色海报</div>
                     <div class="gallery-desc">主角后藤一里的单人宣传海报，完美捕捉了她害羞又可爱的气质。</div>
+                    <span class="gallery-category">官方海报</span>
                 </div>
             </div>
             
-            <div class="gallery-item">
-                <div class="gallery-image">乐队练习</div>
-                <div class="gallery-info">
-                    <div class="gallery-title">STARRY现场</div>
-                    <div class="gallery-desc">結束バンド在Livehouse "STARRY" 的首次演出场景。</div>
+            <div class="gallery-item" data-category="official">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/official/album-cover.jpg" alt="結束バンド专辑封面">
+                    <div class="gallery-overlay">点击查看大图</div>
                 </div>
-            </div>
-            
-            <div class="gallery-item">
-                <div class="gallery-image">专辑封面</div>
                 <div class="gallery-info">
                     <div class="gallery-title">結束バンド专辑封面</div>
                     <div class="gallery-desc">乐队首张专辑《結束バンド》的官方封面设计。</div>
+                    <span class="gallery-category">官方海报</span>
                 </div>
             </div>
             
-            <div class="gallery-item">
-                <div class="gallery-image">表情包</div>
+            <!-- 动画截图 -->
+            <div class="gallery-item" data-category="screenshot">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/screenshot/starry-live.jpg" alt="STARRY现场">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">STARRY现场</div>
+                    <div class="gallery-desc">結束バンド在Livehouse "STARRY" 的首次演出场景。</div>
+                    <span class="gallery-category">动画截图</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="screenshot">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/screenshot/hitori-expression.jpg" alt="小孤独表情包">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
                 <div class="gallery-info">
                     <div class="gallery-title">小孤独表情包</div>
                     <div class="gallery-desc">后藤一里在动画中的经典表情截图，深受粉丝喜爱。</div>
+                    <span class="gallery-category">动画截图</span>
                 </div>
             </div>
             
-            <div class="gallery-item">
-                <div class="gallery-image">宣传绘</div>
+            <div class="gallery-item" data-category="screenshot">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/screenshot/band-practice.jpg" alt="乐队练习日常">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
                 <div class="gallery-info">
-                    <div class="gallery-title">节日特别宣传图</div>
-                    <div class="gallery-desc">动画播出期间发布的节日主题官方宣传图。</div>
+                    <div class="gallery-title">乐队练习日常</div>
+                    <div class="gallery-desc">結束バンド成员们在STARRY练习的温馨场景。</div>
+                    <span class="gallery-category">动画截图</span>
+                </div>
+            </div>
+            
+            <!-- 角色特写 -->
+            <div class="gallery-item" data-category="character">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/character/hitori-closeup.jpg" alt="后藤一里特写">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">后藤一里特写</div>
+                    <div class="gallery-desc">后藤一里抱着吉他的特写镜头，展现了她对音乐的热爱。</div>
+                    <span class="gallery-category">角色特写</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="character">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/character/nijika-smile.jpg" alt="伊地知虹夏笑容">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">伊地知虹夏笑容</div>
+                    <div class="gallery-desc">伊地知虹夏阳光灿烂的笑容，温暖了整个乐队。</div>
+                    <span class="gallery-category">角色特写</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="character">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/character/ryo-cool.jpg" alt="山田凉酷帅瞬间">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">山田凉酷帅瞬间</div>
+                    <div class="gallery-desc">山田凉弹奏贝斯的酷帅瞬间，展现了她的音乐才华。</div>
+                    <span class="gallery-category">角色特写</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="character">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/character/kita-energy.jpg" alt="喜多郁代活力四射">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">喜多郁代活力四射</div>
+                    <div class="gallery-desc">喜多郁代在舞台上活力四射的表演，充满了感染力。</div>
+                    <span class="gallery-category">角色特写</span>
+                </div>
+            </div>
+            
+            <!-- 乐队现场 -->
+            <div class="gallery-item" data-category="live">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/live/first-concert.jpg" alt="首次演唱会">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">首次演唱会</div>
+                    <div class="gallery-desc">結束バンド在STARRY的首次正式演出，紧张但充满热情。</div>
+                    <span class="gallery-category">乐队现场</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="live">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/live/band-performance.jpg" alt="乐队表演">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">乐队表演</div>
+                    <div class="gallery-desc">結束バンド在舞台上默契配合，展现了出色的音乐才华。</div>
+                    <span class="gallery-category">乐队现场</span>
+                </div>
+            </div>
+            
+            <div class="gallery-item" data-category="live">
+                <div class="gallery-image-container">
+                    <img class="gallery-image" src="../images/gallery/live/crowd-interaction.jpg" alt="观众互动">
+                    <div class="gallery-overlay">点击查看大图</div>
+                </div>
+                <div class="gallery-info">
+                    <div class="gallery-title">观众互动</div>
+                    <div class="gallery-desc">結束バンド与观众热情互动，现场气氛热烈。</div>
+                    <span class="gallery-category">乐队现场</span>
                 </div>
             </div>
         </div>
         
-<!-- 粉丝作品区域 -->
-<div class="fan-art-section">
-    <div class="section-header">
-        <h2 class="section-title">粉丝创作</h2>
-        <p class="section-subtitle">
-            来自全球粉丝的精彩创作，展现了大家对《孤独摇滚！》的热爱与创意。
-        </p>
-    </div>
-    
-    <div class="fan-art-grid">
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #1</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
+        <!-- 粉丝作品区域 -->
+        <div class="fan-art-section">
+            <div class="section-header">
+                <h2 class="section-title colorful-title">粉丝创作</h2>
+                <p class="section-subtitle">
+                    来自全球粉丝的精彩创作，展现了大家对《孤独摇滚！》的热爱与创意。
+                </p>
+            </div>
+            
+            <div class="fan-art-grid">
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-1.jpg" alt="粉丝绘画 #1">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
+                
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-2.jpg" alt="粉丝绘画 #2">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
+                
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-3.jpg" alt="粉丝绘画 #3">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
+                
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-4.jpg" alt="粉丝绘画 #4">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
+                
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-5.jpg" alt="粉丝绘画 #5">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
+                
+                <div class="fan-art-item">
+                    <div class="fan-art-image-container">
+                        <img class="fan-art-image" src="../images/gallery/fanart/fanart-6.jpg" alt="粉丝绘画 #6">
+                    </div>
+                    <div class="fan-art-info">
+                        <div class="artist-name">@BocchiTheRock_Fan</div>
+                    </div>
+                </div>
             </div>
         </div>
-        
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #2</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
-            </div>
-        </div>
-        
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #3</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
-            </div>
-        </div>
-        
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #4</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
-            </div>
-        </div>
-        
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #5</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
-            </div>
-        </div>
-        
-        <div class="fan-art-item">
-            <div class="fan-art-image">粉丝绘画 #6</div>
-            <div class="fan-art-info">
-                <div class="artist-name">粉丝作品</div>
-            </div>
-        </div>
-    </div>
-</div>
     </main>
+
+    <!-- 灯箱 -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightbox-close">×</button>
+            <img class="lightbox-image" id="lightbox-image" src="" alt="">
+            <div class="lightbox-caption" id="lightbox-caption"></div>
+        </div>
+    </div>
 
     <footer class="footer">
         <div class="container">
@@ -294,24 +856,162 @@
                 <a href="gallery.html">粉丝画廊</a>
             </div>
             <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
             </p>
         </div>
     </footer>
-
+    
     <script>
-        // 简单的画廊分类功能
+        // 创建动态粒子背景
         document.addEventListener('DOMContentLoaded', function() {
-            const categoryBtns = document.querySelectorAll('.category-btn');
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['#FFB6C1', '#FFFACD', '#ADD8E6', '#FF6B6B'];
             
-            categoryBtns.forEach(btn => {
-                btn.addEventListener('click', function() {
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机大小
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机颜色
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // 随机动画延迟
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // 画廊分类筛选功能
+            const categoryButtons = document.querySelectorAll('.category-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
                     // 移除所有按钮的active类
-                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    categoryButtons.forEach(btn => btn.classList.remove('active'));
                     // 为当前点击的按钮添加active类
                     this.classList.add('active');
                     
-                    // 这里可以添加实际的内容过滤逻辑
-                    // 目前只是演示UI交互
+                    const category = this.getAttribute('data-category');
+                    
+                    // 筛选图片
+                    galleryItems.forEach(item => {
+                        if (category === 'all' || item.getAttribute('data-category') === category) {
+                            item.style.display = 'block';
+                            // 添加淡入动画
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                item.style.transition = 'all 0.5s ease';
+                                item.style.opacity = '1';
+                                item.style.transform = 'translateY(0)';
+                            }, 50);
+                        } else {
+                            // 添加淡出动画
+                            item.style.opacity = '0';
+                            item.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                item.style.display = 'none';
+                            }, 300);
+                        }
+                    });
+                });
+            });
+            
+            // ============ 灯箱功能修复 - 开始 ============
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const lightboxCaption = document.getElementById('lightbox-caption');
+            const lightboxClose = document.getElementById('lightbox-close');
+            
+            // 为所有图片和覆盖层添加点击事件
+            document.addEventListener('click', function(e) {
+                // 检查点击的是否是画廊图片或覆盖层
+                if (e.target.classList.contains('gallery-image') || 
+                    e.target.classList.contains('gallery-overlay') ||
+                    e.target.classList.contains('fan-art-image')) {
+                    
+                    const clickedElement = e.target;
+                    let imageSrc, imageAlt, captionText;
+                    
+                    // 获取图片源和替代文本
+                    if (clickedElement.classList.contains('gallery-image') || 
+                        clickedElement.classList.contains('fan-art-image')) {
+                        imageSrc = clickedElement.getAttribute('src');
+                        imageAlt = clickedElement.getAttribute('alt');
+                    } else {
+                        // 如果点击的是覆盖层，则获取其父元素中的图片
+                        const image = clickedElement.closest('.gallery-image-container').querySelector('.gallery-image');
+                        imageSrc = image.getAttribute('src');
+                        imageAlt = image.getAttribute('alt');
+                    }
+                    
+                    // 获取标题文本
+                    if (clickedElement.closest('.gallery-item')) {
+                        const galleryItem = clickedElement.closest('.gallery-item');
+                        const titleElement = galleryItem.querySelector('.gallery-title');
+                        captionText = titleElement ? titleElement.textContent : imageAlt;
+                    } else if (clickedElement.closest('.fan-art-item')) {
+                        const fanArtItem = clickedElement.closest('.fan-art-item');
+                        const artistElement = fanArtItem.querySelector('.artist-name');
+                        captionText = artistElement ? artistElement.textContent + ' 的作品' : imageAlt;
+                    } else {
+                        captionText = imageAlt;
+                    }
+                    
+                    // 设置灯箱内容
+                    lightboxImage.setAttribute('src', imageSrc);
+                    lightboxImage.setAttribute('alt', imageAlt);
+                    lightboxCaption.textContent = captionText;
+                    
+                    // 显示灯箱
+                    lightbox.style.display = 'flex';
+                    document.body.style.overflow = 'hidden'; // 防止背景滚动
+                }
+            });
+            
+            // 关闭灯箱
+            function closeLightbox() {
+                lightbox.style.display = 'none';
+                document.body.style.overflow = ''; // 恢复滚动
+            }
+            
+            // 点击关闭按钮关闭灯箱
+            lightboxClose.addEventListener('click', closeLightbox);
+            
+            // 点击灯箱背景也关闭
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === lightbox) {
+                    closeLightbox();
+                }
+            });
+            
+            // 按ESC键关闭灯箱
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                    closeLightbox();
+                }
+            });
+            // ============ 灯箱功能修复 - 结束 ============
+            
+            // 添加卡片悬停效果增强
+            const galleryCards = document.querySelectorAll('.gallery-item, .fan-art-item');
+            galleryCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.03)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
                 });
             });
         });

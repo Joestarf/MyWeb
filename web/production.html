@@ -6,12 +6,153 @@
     <title>制作幕后 - 孤独摇滚小站</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
+        /* 动态背景效果 */
+        .production-hero {
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.8) 0%, 
+                rgba(255, 182, 193, 0.8) 25%, 
+                rgba(255, 250, 205, 0.8) 25%, 
+                rgba(255, 250, 205, 0.8) 50%, 
+                rgba(173, 216, 230, 0.8) 50%, 
+                rgba(173, 216, 230, 0.8) 75%, 
+                rgba(255, 107, 107, 0.8) 75%, 
+                rgba(255, 107, 107, 0.8) 100%);
+            background-size: 200% 200%;
+            padding: 5rem 2rem;
+            text-align: center;
+            color: #2c3e50;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .production-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+        
+        .production-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .production-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .production-hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .production-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 动态粒子背景 */
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+            }
+        }
+        
+        /* 增强的信息卡片 */
         .info-card {
             background: white;
-            border-radius: 10px;
-            padding: 2rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .info-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .info-card:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .info-card:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
         }
         
         .info-card h2 {
@@ -19,11 +160,30 @@
             margin-bottom: 1.5rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid #ecf0f1;
+            position: relative;
+            display: inline-block;
         }
         
+        .info-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            border-radius: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        .info-card:hover h2::after {
+            width: 100px;
+        }
+        
+        /* 增强的制作团队网格 */
         .staff-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 1.5rem;
         }
@@ -31,64 +191,195 @@
         .staff-item {
             background: #f8f9fa;
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 15px;
             border-left: 4px solid #3498db;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .staff-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.1), rgba(41, 128, 185, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .staff-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .staff-item:hover::before {
+            opacity: 1;
         }
         
         .staff-name {
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
         
         .staff-role {
             color: #e74c3c;
             font-size: 0.9rem;
             margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
         }
         
         .staff-works {
             color: #666;
             font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
         }
         
+        /* 增强的声优阵容 */
         .voice-actors {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
             margin-top: 1.5rem;
         }
         
         .voice-actor {
             text-align: center;
             background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s ease;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .voice-actor::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
         }
         
         .voice-actor:hover {
-            transform: translateY(-5px);
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .voice-actor:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .actor-avatar-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            border: 4px solid white;
+        }
+        
+        .voice-actor:hover .actor-avatar-container {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
         }
         
         .actor-avatar {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #9b59b6, #3498db);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .voice-actor:hover .actor-avatar {
+            transform: scale(1.1);
+        }
+        
+        .actor-avatar-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        /* 为每个声优卡片添加对应的角色颜色覆盖层 */
+        .voice-actor:nth-child(1) .actor-avatar-container::after {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(255, 105, 180, 0.3));
+        }
+        
+        .voice-actor:nth-child(2) .actor-avatar-container::after {
+            background: linear-gradient(135deg, rgba(255, 250, 205, 0.3), rgba(255, 215, 0, 0.3));
+        }
+        
+        .voice-actor:nth-child(3) .actor-avatar-container::after {
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.3), rgba(30, 144, 255, 0.3));
+        }
+        
+        .voice-actor:nth-child(4) .actor-avatar-container::after {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 71, 87, 0.3));
+        }
+        
+        .voice-actor:hover .actor-avatar-container::after {
+            opacity: 1;
         }
         
         .actor-name {
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 0.25rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .actor-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 2px;
+            transition: width 0.3s ease;
+        }
+        
+        /* 为每个声优名称添加对应的颜色下划线 */
+        .voice-actor:nth-child(1) .actor-name::after {
+            background: #FFB6C1;
+        }
+        
+        .voice-actor:nth-child(2) .actor-name::after {
+            background: #FFFACD;
+        }
+        
+        .voice-actor:nth-child(3) .actor-name::after {
+            background: #ADD8E6;
+        }
+        
+        .voice-actor:nth-child(4) .actor-name::after {
+            background: #FF6B6B;
+        }
+        
+        .voice-actor:hover .actor-name::after {
+            width: 50px;
         }
         
         .actor-character {
@@ -100,17 +391,28 @@
         .actor-works {
             color: #666;
             font-size: 0.85rem;
+            line-height: 1.4;
         }
         
+        /* 制作趣闻增强 */
         .trivia-list {
             list-style: none;
         }
         
         .trivia-list li {
-            padding: 1rem 0;
+            padding: 1.5rem 0;
             border-bottom: 1px solid #ecf0f1;
             display: flex;
             align-items: flex-start;
+            transition: all 0.3s ease;
+        }
+        
+        .trivia-list li:hover {
+            background: rgba(248, 249, 250, 0.5);
+            transform: translateX(10px);
+            border-radius: 10px;
+            padding-left: 1rem;
+            padding-right: 1rem;
         }
         
         .trivia-list li:last-child {
@@ -120,14 +422,22 @@
         .trivia-icon {
             background: #f39c12;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 1rem;
+            margin-right: 1.5rem;
             flex-shrink: 0;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .trivia-list li:hover .trivia-icon {
+            transform: scale(1.1) rotate(10deg);
+            background: #e74c3c;
         }
         
         .trivia-content {
@@ -138,11 +448,241 @@
             font-weight: bold;
             color: #2c3e50;
             margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .trivia-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: #f39c12;
+            transition: width 0.3s ease;
+        }
+        
+        .trivia-list li:hover .trivia-title::after {
+            width: 50px;
         }
         
         .trivia-desc {
             color: #666;
             line-height: 1.6;
+        }
+        
+        /* 音乐制作区域 */
+        .music-production {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .music-production::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('../images/production/music-bg.jpg') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .music-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .music-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #f39c12;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .music-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #f39c12, #e74c3c);
+            border-radius: 2px;
+        }
+        
+        .music-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .music-item {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            transition: all 0.3s ease;
+        }
+        
+        .music-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .music-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #f39c12;
+        }
+        
+        .music-item h4 {
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+        
+        .music-item p {
+            color: #bdc3c7;
+            line-height: 1.5;
+        }
+        
+        /* 动画工作室展示 */
+        .studio-showcase {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .studio-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .studio-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #3498db, #9b59b6);
+            border-radius: 2px;
+        }
+        
+        .studio-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .studio-logo {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+        
+        .studio-logo-img {
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .studio-logo-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .studio-info {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .studio-desc {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 1.5rem;
+        }
+        
+        .studio-works {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .studio-work {
+            background: #f8f9fa;
+            padding: 0.8rem 1.2rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            color: #2c3e50;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .studio-work:hover {
+            background: #3498db;
+            color: white;
+            transform: translateY(-3px);
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .production-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .production-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .staff-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .voice-actors {
+                grid-template-columns: 1fr;
+            }
+            
+            .trivia-list li {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .trivia-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+            
+            .studio-content {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -163,15 +703,18 @@
         </div>
     </nav>
 
-    <main class="container" style="padding: 2rem 0; min-height: 60vh;">
-        <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">制作幕后</h1>
-        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 800px; margin-left: auto; margin-right: auto;">
-            探索《孤独摇滚！》背后的创作故事，了解这部优秀作品是如何诞生的。
-        </p>
-        
+    <section class="production-hero">
+        <div class="particles" id="particles"></div>
+        <div class="production-hero-content">
+            <h1>制作幕后</h1>
+            <p>探索《孤独摇滚！》背后的创作故事，了解这部优秀作品是如何诞生的。</p>
+        </div>
+    </section>
+
+    <main class="container" style="padding: 0 0 3rem 0; min-height: 60vh;">
         <!-- 制作公司信息 -->
         <div class="info-card">
-            <h2>制作团队</h2>
+            <h2 class="colorful-title">制作团队</h2>
             <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
                 《孤独摇滚！》由知名动画制作公司CloverWorks负责制作，该公司以高质量的作品和对细节的注重而闻名。
             </p>
@@ -180,13 +723,13 @@
                 <div class="staff-item">
                     <div class="staff-name">斋藤圭一郎</div>
                     <div class="staff-role">导演</div>
-                    <div class="staff-works">代表作：《奇诺之旅》、《更衣人偶坠入爱河》</div>
+                    <div class="staff-works">代表作：《孤独摇滚！》、《葬送的芙莉莲》</div>
                 </div>
                 
                 <div class="staff-item">
-                    <div class="staff-name">吉田惠理子</div>
-                    <div class="staff-role">角色设计 · 总作画监督</div>
-                    <div class="staff-works">代表作：《魔法少女小圆》、《三月的狮子》</div>
+                    <div class="staff-name">藤田亚纪子</div>
+                    <div class="staff-role">音响监督</div>
+                    <div class="staff-works">代表作：《咒术回战》、《魔女之旅》、《更衣人偶坠入爱河》</div>
                 </div>
                 
                 <div class="staff-item">
@@ -199,45 +742,111 @@
         
         <!-- 声优阵容 -->
         <div class="info-card">
-            <h2>声优阵容</h2>
+            <h2 class="colorful-title">声优阵容</h2>
             <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
                 实力派声优们为《孤独摇滚！》的角色注入了灵魂，她们的精彩演绎让角色更加生动立体。
             </p>
             
             <div class="voice-actors">
                 <div class="voice-actor">
-                    <div class="actor-avatar">长谷川</div>
-                    <div class="actor-name">长谷川育美</div>
-                    <div class="actor-character">配音：后藤一里</div>
-                    <div class="actor-works">代表作：《明日方舟》阿米娅</div>
-                </div>
-                
-                <div class="voice-actor">
-                    <div class="actor-avatar">水野</div>
-                    <div class="actor-name">水野朔</div>
-                    <div class="actor-character">配音：伊地知虹夏</div>
-                    <div class="actor-works">代表作：《LoveLive!超级明星!!》涩谷香音</div>
-                </div>
-                
-                <div class="voice-actor">
-                    <div class="actor-avatar">青山</div>
+                    <div class="actor-avatar-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="actor-avatar" src="../images/production/seiyuu/hitori.jpg" alt="青山吉能">
+                    </div>
                     <div class="actor-name">青山吉能</div>
-                    <div class="actor-character">配音：山田凉</div>
-                    <div class="actor-works">代表作：《少女终末旅行》千都</div>
+                    <div class="actor-character">配音：后藤一里</div>
+                    <div class="actor-works">代表作：《Wake Up, Girls!》七濑佳乃、《恋爱暴君》古莉</div>
                 </div>
                 
                 <div class="voice-actor">
-                    <div class="actor-avatar">铃木</div>
+                    <div class="actor-avatar-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="actor-avatar" src="../images/production/seiyuu/nijika.jpg" alt="铃代纱弓">
+                    </div>
                     <div class="actor-name">铃代纱弓</div>
+                    <div class="actor-character">配音：伊地知虹夏</div>
+                    <div class="actor-works">代表作：《高分少女》大野晶、《我们无法一起学习》武元润香、《辉夜大小姐想让我告白》白银圭</div>
+                </div>
+                
+                <div class="voice-actor">
+                    <div class="actor-avatar-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="actor-avatar" src="../images/production/seiyuu/ryo.jpg" alt="水野朔">
+                    </div>
+                    <div class="actor-name">水野朔</div>
+                    <div class="actor-character">配音：山田凉</div>
+                    <div class="actor-works">代表作：《后宫之乌》柳寿雪、《SELECTION PROJECT》 花野井玲那</div>
+                </div>
+                
+                <div class="voice-actor">
+                    <div class="actor-avatar-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="actor-avatar" src="../images/production/seiyuu/kita.jpg" alt="长谷川育美">
+                    </div>
+                    <div class="actor-name">长谷川育美</div>
                     <div class="actor-character">配音：喜多郁代</div>
-                    <div class="actor-works">代表作：《古见同学有交流障碍症》长名奈津美</div>
+                    <div class="actor-works">代表作：《弱势角色友崎君》七海深奈实、《86-不存在的战区-》芙拉蒂蕾娜·米利杰</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 音乐制作区域 -->
+        <div class="music-production">
+            <div class="music-content">
+                <h2 class="music-title colorful-title">音乐制作</h2>
+                <div class="music-grid">
+                    <div class="music-item">
+                        <div class="music-icon">🎵</div>
+                        <h4>原创音乐</h4>
+                        <p>动画中的所有歌曲都由专业音乐人创作，完美契合角色性格和剧情发展。</p>
+                    </div>
+                    <div class="music-item">
+                        <div class="music-icon">🎸</div>
+                        <h4>乐器演奏</h4>
+                        <p>声优们接受了专业的乐器训练，确保演奏动作的真实性和专业性。</p>
+                    </div>
+                    <div class="music-item">
+                        <div class="music-icon">🎤</div>
+                        <h4>录音过程</h4>
+                        <p>录音工作在专业录音室进行，确保声音质量和音乐表现力。</p>
+                    </div>
+                    <div class="music-item">
+                        <div class="music-icon">🎧</div>
+                        <h4>音效设计</h4>
+                        <p>精心设计的音效增强了动画的沉浸感，从现场演出到日常生活的细节都经过精心处理。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 动画工作室展示 -->
+        <div class="studio-showcase">
+            <h2 class="studio-title colorful-title">动画工作室</h2>
+            <div class="studio-content">
+                <div class="studio-logo">
+                    <!-- 替换这里的图片路径 -->
+                    <img class="studio-logo-img" src="../images/production/cloverworks.jpg" alt="CloverWorks工作室">
+                </div>
+                <div class="studio-info">
+                    <p class="studio-desc">
+                        CloverWorks是Aniplex旗下的动画制作公司，以其高质量的作品和对细节的注重而闻名。
+                        除了《孤独摇滚！》外，该公司还制作了《间谍过家家》、《更衣人偶坠入爱河》、
+                        《奇诺之旅》等多部优秀作品。
+                    </p>
+                    <div class="studio-works">
+                        <div class="studio-work">《间谍过家家》</div>
+                        <div class="studio-work">《更衣人偶坠入爱河》</div>
+                        <div class="studio-work">《奇诺之旅》</div>
+                        <div class="studio-work">《约定的梦幻岛》</div>
+                        <div class="studio-work">《DARLING in the FRANXX》</div>
+                    </div>
                 </div>
             </div>
         </div>
         
         <!-- 制作趣闻 -->
         <div class="info-card">
-            <h2>制作趣闻</h2>
+            <h2 class="colorful-title">制作趣闻</h2>
             <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
                 在《孤独摇滚！》的制作过程中，发生了许多有趣的故事和值得关注的细节。
             </p>
@@ -297,8 +906,64 @@
                 <a href="gallery.html">粉丝画廊</a>
             </div>
             <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
             </p>
         </div>
     </footer>
+    
+    <script>
+        // 创建动态粒子背景
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const colors = ['#FFB6C1', '#FFFACD', '#ADD8E6', '#FF6B6B'];
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // 随机大小
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // 随机颜色
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particle.style.background = color;
+                
+                // 随机位置
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // 随机动画延迟
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // 添加卡片悬停效果增强
+            const infoCards = document.querySelectorAll('.info-card');
+            infoCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // 添加声优卡片特殊效果
+            const voiceActors = document.querySelectorAll('.voice-actor');
+            voiceActors.forEach(actor => {
+                actor.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) rotate(1deg)';
+                });
+                
+                actor.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) rotate(0deg)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

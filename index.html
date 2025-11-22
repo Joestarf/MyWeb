@@ -5,6 +5,640 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>孤独摇滚小站 - 结束乐队应援页</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* 轮播图样式 */
+        .hero {
+            position: relative;
+            height: 70vh;
+            min-height: 500px;
+            overflow: hidden;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+        }
+        
+        .slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .slide.active {
+            opacity: 1;
+        }
+        
+        /* 三张轮播图片 */
+        .slide1 {
+            background-image: url('images/home/background_1.jpg');
+        }
+        
+        .slide2 {
+            background-image: url('images/home/background_2.jpg');
+        }
+        
+        .slide3 {
+            background-image: url('images/home/background_3.jpg');
+        }
+        
+        /* 添加深色遮罩确保文字可读性 */
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-content h2 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            position: relative;
+            display: inline-block;
+            animation: fadeInDown 1s ease-out;
+        }
+        
+        .hero-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .hero-content p {
+            font-size: 1.5rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+            max-width: 600px;
+        }
+        
+        /* 轮播指示器 */
+        .slide-indicators {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 1rem;
+            z-index: 10;
+        }
+        
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* 导航箭头 */
+        .slide-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-nav:hover {
+            background: rgba(0, 0, 0, 0.7);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev {
+            left: 2rem;
+        }
+        
+        .next {
+            right: 2rem;
+        }
+        
+        /* 动画定义 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 其余样式保持不变 */
+        .intro {
+            padding: 4rem 0;
+            text-align: center;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #555;
+            line-height: 1.8;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* 功能卡片区域 - 重新设计 */
+        .features {
+            padding: 4rem 0;
+            background: #f8f9fa;
+            position: relative;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .features h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+        
+        .card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .card:nth-child(1) {
+            animation-delay: 0.1s;
+            border-color: #FFB6C1; /* 后藤一里 - 粉红色 */
+        }
+        
+        .card:nth-child(2) {
+            animation-delay: 0.2s;
+            border-color: #FFFACD; /* 伊地知虹夏 - 亮黄色 */
+        }
+        
+        .card:nth-child(3) {
+            animation-delay: 0.3s;
+            border-color: #ADD8E6; /* 山田凉 - 蓝色 */
+        }
+        
+        .card:nth-child(4) {
+            animation-delay: 0.4s;
+            border-color: #FF6B6B; /* 喜多郁代 - 红色 */
+        }
+        
+        .card:nth-child(5) {
+            animation-delay: 0.5s;
+            border-color: #9b59b6; /* 混合色 */
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+        
+        /* 为每个卡片添加对应的角色颜色顶部边框 */
+        .card:nth-child(1)::before {
+            background: linear-gradient(90deg, #FFB6C1, #FF69B4);
+        }
+        
+        .card:nth-child(2)::before {
+            background: linear-gradient(90deg, #FFFACD, #FFD700);
+        }
+        
+        .card:nth-child(3)::before {
+            background: linear-gradient(90deg, #ADD8E6, #1E90FF);
+        }
+        
+        .card:nth-child(4)::before {
+            background: linear-gradient(90deg, #FF6B6B, #FF4757);
+        }
+        
+        .card:nth-child(5)::before {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+        }
+        
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.5s ease;
+        }
+        
+        .card:hover .card-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .card h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .card h3::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        /* 为每个卡片添加对应的角色颜色下划线 */
+        .card:nth-child(1) h3::after {
+            background: #FFB6C1;
+        }
+        
+        .card:nth-child(2) h3::after {
+            background: #FFFACD;
+        }
+        
+        .card:nth-child(3) h3::after {
+            background: #ADD8E6;
+        }
+        
+        .card:nth-child(4) h3::after {
+            background: #FF6B6B;
+        }
+        
+        .card:nth-child(5) h3::after {
+            background: #9b59b6;
+        }
+        
+        .card:hover h3::after {
+            width: 70px;
+        }
+        
+        .card p {
+            color: #666;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+        
+        .card:hover p {
+            color: #555;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+        }
+        
+        .btn:hover::before {
+            width: 100%;
+        }
+        
+        /* 角色展示区域 */
+        .characters-showcase {
+            padding: 4rem 0;
+            background: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .characters-showcase h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .characters-showcase h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .character-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .character-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .character-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .character-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .character-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .character-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+        
+        .character-image-container {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .character-card:hover .character-image {
+            transform: scale(1.1);
+        }
+        
+        .character-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .character-role {
+            color: #e74c3c;
+            font-size: 1rem;
+        }
+        
+        /* 更新日志 */
+        .updates {
+            padding: 4rem 0;
+            background: #f8f9fa;
+            position: relative;
+        }
+        
+        .updates h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .updates h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .update-list {
+            list-style: none;
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .update-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .update-list li:hover {
+            background: rgba(248, 249, 250, 0.5);
+            transform: translateX(10px);
+            border-radius: 10px;
+            padding-left: 1rem;
+            padding-right: 1rem;
+        }
+        
+        .update-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .update-date {
+            color: #e74c3c;
+            font-weight: bold;
+            min-width: 120px;
+        }
+        
+        .update-text {
+            color: #555;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero-content h2 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+            
+            .slide-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            
+            .prev {
+                left: 1rem;
+            }
+            
+            .next {
+                right: 1rem;
+            }
+            
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .characters-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .update-list li {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- 导航栏 -->
@@ -24,36 +658,115 @@
         </div>
     </nav>
 
-    <!-- 主视觉区域 -->
+    <!-- 主视觉区域 - 轮播图 -->
     <section class="hero">
+        <div class="slideshow">
+            <div class="slide slide1 active"></div>
+            <div class="slide slide2"></div>
+            <div class="slide slide3"></div>
+        </div>
+        
+        <button class="slide-nav prev">❮</button>
+        <button class="slide-nav next">❯</button>
+        
+        <div class="slide-indicators">
+            <div class="indicator active" data-slide="0"></div>
+            <div class="indicator" data-slide="1"></div>
+            <div class="indicator" data-slide="2"></div>
+        </div>
+        
         <div class="hero-content">
             <h2>欢迎来到「結束バンド」的世界</h2>
-            <p>音乐与青春的故事，在此奏响！</p>
+            <p>音乐与青春的故事，在此奏响！四位性格迥异的女孩，因音乐而相遇，共同编织属于她们的摇滚梦想。</p>
         </div>
     </section>
 
     <!-- 网站介绍 -->
     <section class="intro">
         <div class="container">
-            <p>本网站致力于分享《孤独摇滚》的点点滴滴。在这里，你可以了解作品背景、认识角色、欣赏音乐，并深入探索动画的幕后制作与粉丝们的精彩创作。</p>
+            <p>本网站致力于分享《孤独摇滚》的点点滴滴。在这里，你可以了解作品背景、认识角色、欣赏音乐，并深入探索动画的幕后制作与粉丝们的精彩创作。让我们一起沉浸在这个充满音乐与友情的美好世界中！</p>
         </div>
     </section>
 
     <!-- 功能卡片区域 -->
     <section class="features">
         <div class="container">
+            <h2 class="colorful-title">探索内容</h2>
             <div class="cards-container">
                 <div class="card">
                     <div class="card-icon">🎬</div>
+                    <h3>作品介绍</h3>
+                    <p>深入了解《孤独摇滚！》的故事背景、创作理念和作品特色，感受这部作品的独特魅力。</p>
+                    <a href="web/about.html" class="btn">了解更多</a>
+                </div>
+                <div class="card">
+                    <div class="card-icon">👥</div>
+                    <h3>角色介绍</h3>
+                    <p>认识「結束バンド」的四位成员，了解她们的性格特点、成长历程和彼此之间的羁绊。</p>
+                    <a href="web/characters.html" class="btn">认识角色</a>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎵</div>
+                    <h3>音乐专辑</h3>
+                    <p>欣赏「結束バンド」的原创歌曲，沉浸在充满青春活力的音乐世界中。</p>
+                    <a href="web/music.html" class="btn">聆听音乐</a>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
                     <h3>制作幕后</h3>
-                    <p>揭开动画背后的秘密。了解制作公司、声优阵容与创作趣闻。</p>
+                    <p>揭开动画背后的秘密，了解制作团队、声优阵容与创作过程中的趣闻轶事。</p>
                     <a href="web/production.html" class="btn">探索幕后</a>
                 </div>
                 <div class="card">
                     <div class="card-icon">🖼️</div>
                     <h3>粉丝画廊</h3>
-                    <p>欣赏精选官方海报、动画截图与粉丝佳作。</p>
+                    <p>欣赏精选官方海报、动画截图与来自全球粉丝的精彩创作。</p>
                     <a href="web/gallery.html" class="btn">浏览图库</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 角色展示区域 -->
+    <section class="characters-showcase">
+        <div class="container">
+            <h2 class="colorful-title">乐队成员</h2>
+            <div class="characters-grid">
+                <div class="character-card">
+                    <div class="character-image-container">
+                        <img class="character-image" src="images/home/character-hitori.jpg" alt="后藤一里">
+                    </div>
+                    <div class="character-info">
+                        <div class="character-name">后藤一里</div>
+                        <div class="character-role">吉他手 · 网红「guitarhero」</div>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image-container">
+                        <img class="character-image" src="images/home/character-nijika.jpg" alt="伊地知虹夏">
+                    </div>
+                    <div class="character-info">
+                        <div class="character-name">伊地知虹夏</div>
+                        <div class="character-role">鼓手 · 乐队发起人</div>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image-container">
+                        <img class="character-image" src="images/home/character-ryo.jpg" alt="山田凉">
+                    </div>
+                    <div class="character-info">
+                        <div class="character-name">山田凉</div>
+                        <div class="character-role">贝斯手</div>
+                    </div>
+                </div>
+                <div class="character-card">
+                    <div class="character-image-container">
+                        <img class="character-image" src="images/home/character-kita.jpg" alt="喜多郁代">
+                    </div>
+                    <div class="character-info">
+                        <div class="character-name">喜多郁代</div>
+                        <div class="character-role">吉他手 · 主唱</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,15 +775,31 @@
     <!-- 更新日志 -->
     <section class="updates">
         <div class="container">
-            <h2>最新动态</h2>
+            <h2 class="colorful-title">最新动态</h2>
             <ul class="update-list">
                 <li>
-                    <span class="update-date">[2023-10-27]</span>
+                    <span class="update-date">[2025-11-21]</span>
+                    <span class="update-text">首页全面升级，新增角色展示区域和动态效果！</span>
+                </li>
+                <li>
+                    <span class="update-date">[2025-11-21]</span>
                     <span class="update-text">「粉丝画廊」新增一批官方高清截图！</span>
                 </li>
                 <li>
-                    <span class="update-date">[2023-10-25]</span>
+                    <span class="update-date">[2025-11-21]</span>
                     <span class="update-text">「制作幕后」页面更新了主要声优介绍！</span>
+                </li>
+                <li>
+                    <span class="update-date">[2025-11-22]</span>
+                    <span class="update-text">「音乐专辑」页面添加了完整的播放器功能！</span>
+                </li>
+                <li>
+                    <span class="update-date">[2025-11-22]</span>
+                    <span class="update-text">网站正式上线，欢迎各位粉丝来访！</span>
+                </li>
+                <li>
+                    <span class="update-date">[2025-11-23]</span>
+                    <span class="update-text">修复了一些显示问题和内容错误！</span>
                 </li>
             </ul>
         </div>
@@ -88,8 +817,94 @@
                 <a href="web/gallery.html">粉丝画廊</a>
             </div>
             <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
             </p>
         </div>
     </footer>
+
+    <script>
+        // 轮播图功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            const prevBtn = document.querySelector('.prev');
+            const nextBtn = document.querySelector('.next');
+            let currentSlide = 0;
+            let slideInterval;
+            
+            // 切换到指定幻灯片
+            function goToSlide(n) {
+                slides[currentSlide].classList.remove('active');
+                indicators[currentSlide].classList.remove('active');
+                
+                currentSlide = (n + slides.length) % slides.length;
+                
+                slides[currentSlide].classList.add('active');
+                indicators[currentSlide].classList.add('active');
+            }
+            
+            // 下一张幻灯片
+            function nextSlide() {
+                goToSlide(currentSlide + 1);
+            }
+            
+            // 上一张幻灯片
+            function prevSlide() {
+                goToSlide(currentSlide - 1);
+            }
+            
+            // 开始自动轮播
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000); // 5秒切换一次
+            }
+            
+            // 停止自动轮播
+            function stopSlideShow() {
+                clearInterval(slideInterval);
+            }
+            
+            // 事件监听
+            nextBtn.addEventListener('click', function() {
+                stopSlideShow();
+                nextSlide();
+                startSlideShow();
+            });
+            
+            prevBtn.addEventListener('click', function() {
+                stopSlideShow();
+                prevSlide();
+                startSlideShow();
+            });
+            
+            // 指示器点击事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', function() {
+                    stopSlideShow();
+                    goToSlide(index);
+                    startSlideShow();
+                });
+            });
+            
+            // 鼠标悬停时暂停轮播
+            const hero = document.querySelector('.hero');
+            hero.addEventListener('mouseenter', stopSlideShow);
+            hero.addEventListener('mouseleave', startSlideShow);
+            
+            // 开始轮播
+            startSlideShow();
+            
+            // 添加卡片悬停效果增强
+            const cards = document.querySelectorAll('.card, .character-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-10px) scale(1.03)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>

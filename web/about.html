@@ -6,34 +6,88 @@
     <title>作品介绍 - 孤独摇滚小站</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
-        /* 自定义样式 */
+    /* 修改后的 about-hero 样式 */
         .about-hero {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/about/hero-bg.jpg') center/cover;
-            height: 50vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.9) 0%, 
+                rgba(255, 182, 193, 0.9) 25%, 
+                rgba(255, 250, 205, 0.9) 25%, 
+                rgba(255, 250, 205, 0.9) 50%, 
+                rgba(173, 216, 230, 0.9) 50%, 
+                rgba(173, 216, 230, 0.9) 75%, 
+                rgba(255, 107, 107, 0.9) 75%, 
+                rgba(255, 107, 107, 0.9) 100%);
+            background-size: 200% 200%;
+            padding: 5rem 2rem;
             text-align: center;
-            color: white;
+            color: #2c3e50;
+            border-radius: 0 0 30px 30px;
             margin-bottom: 3rem;
-            border-radius: 0 0 20px 20px;
-            animation: fadeIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .about-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+        
+        .about-hero-content {
+            position: relative;
+            z-index: 2;
         }
         
         .about-hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
-            animation: slideInDown 1s ease-out;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .about-hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
         }
         
         .about-hero p {
-            font-size: 1.5rem;
-            opacity: 0.9;
-            animation: slideInUp 1s ease-out 0.3s forwards;
-            opacity: 0;
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
         }
-        
         .content-section {
             background: white;
             padding: 2.5rem;
@@ -113,49 +167,16 @@
             transform: scale(1.05);
         }
         
-        /* 作品特色部分 - 四色主题背景 */
+        /* 修改后的作品特色部分 - 移除四色背景 */
         .features-section {
-            background: linear-gradient(135deg, 
-                #FFB6C1 0%, #FFB6C1 25%, 
-                #FFFACD 25%, #FFFACD 50%, 
-                #ADD8E6 50%, #ADD8E6 75%, 
-                #FFB6C1 75%, #FFB6C1 100%);
-            background-size: 200% 200%;
-            padding: 3rem 2rem;
-            border-radius: 20px;
-            margin: 3rem 0;
-            position: relative;
-            overflow: hidden;
-            animation: gradientShift 10s ease infinite;
-        }
-        
-        @keyframes gradientShift {
-            0% {
-                background-position: 0% 0%;
-            }
-            25% {
-                background-position: 100% 0%;
-            }
-            50% {
-                background-position: 100% 100%;
-            }
-            75% {
-                background-position: 0% 100%;
-            }
-            100% {
-                background-position: 0% 0%;
-            }
-        }
-        
-        .features-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(255, 255, 255, 0.85);
-            z-index: 1;
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
         }
         
         .features-grid {
@@ -163,12 +184,10 @@
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
-            position: relative;
-            z-index: 2;
         }
         
         .feature-card {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 2rem;
             border-radius: 15px;
             text-align: center;
@@ -177,7 +196,6 @@
             overflow: hidden;
             box-shadow: 0 8px 25px rgba(0,0,0,0.1);
             border: 2px solid transparent;
-            backdrop-filter: blur(5px);
         }
         
         /* 为每个卡片添加对应的角色颜色边框 */
@@ -478,8 +496,8 @@
     </nav>
 
     <section class="about-hero">
-        <div>
-            <h1>《孤独摇滚！》</h1>
+        <div class="about-hero-content">
+            <h1>作品介绍</h1>
             <p>音乐与青春的碰撞，内向少女的摇滚之旅</p>
         </div>
     </section>
@@ -487,7 +505,7 @@
     <main class="container" style="padding: 0 0 3rem 0; min-height: 60vh;">
         <!-- 作品简介部分 -->
         <section class="content-section">
-            <h2 class="section-title">作品简介</h2>
+            <h2 class="section-title colorful-title">作品简介</h2>
             <div class="story-content">
                 <div class="story-text">
                     <p style="line-height: 1.8; margin-bottom: 1.5rem;">
@@ -506,7 +524,7 @@
         
         <!-- 故事梗概部分 -->
         <section class="content-section">
-            <h2 class="section-title">故事梗概</h2>
+            <h2 class="section-title colorful-title">故事梗概</h2>
             <div class="story-content">
                 <div class="story-image">
                     <!-- 替换这里的图片路径 -->
@@ -523,9 +541,9 @@
             </div>
         </section>
         
-        <!-- 作品特色部分 - 四色主题背景 -->
+        <!-- 作品特色部分 - 修改后的样式 -->
         <section class="features-section">
-            <h2 class="section-title" style="color: #2c3e50; background: rgba(255,255,255,0.8); padding: 0.5rem 1.5rem; border-radius: 10px; display: inline-block;">作品特色</h2>
+            <h2 class="section-title colorful-title">作品特色</h2>
             <div class="features-grid">
                 <div class="feature-card">
                     <div class="feature-image-container">
@@ -575,7 +593,7 @@
         
         <!-- 主要角色展示 -->
         <section class="content-section">
-            <h2 class="section-title">主要角色</h2>
+            <h2 class="section-title colorful-title">主要角色</h2>
             <div class="characters-showcase">
                 <div class="character-item">
                     <div class="character-avatar">
@@ -583,7 +601,7 @@
                         <img src="../images/about/character-hitori.jpg" alt="后藤一里">
                     </div>
                     <div class="character-name">后藤一里</div>
-                    <div class="character-role">吉他手 · 主唱</div>
+                    <div class="character-role">主吉他手 · 作词</div>
                 </div>
                 <div class="character-item">
                     <div class="character-avatar">
@@ -599,7 +617,7 @@
                         <img src="../images/about/character-ryo.jpg" alt="山田凉">
                     </div>
                     <div class="character-name">山田凉</div>
-                    <div class="character-role">贝斯手</div>
+                    <div class="character-role">贝斯手·作曲</div>
                 </div>
                 <div class="character-item">
                     <div class="character-avatar">
@@ -607,7 +625,7 @@
                         <img src="../images/about/character-kita.jpg" alt="喜多郁代">
                     </div>
                     <div class="character-name">喜多郁代</div>
-                    <div class="character-role">吉他手 · 主唱</div>
+                    <div class="character-role">节奏吉他手 · 主唱</div>
                 </div>
             </div>
         </section>
@@ -623,6 +641,9 @@
                 <a href="production.html">制作幕后</a>
                 <a href="gallery.html">粉丝画廊</a>
             </div>
+            <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
+            </p>
         </div>
     </footer>
 </body>
