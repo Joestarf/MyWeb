@@ -6,6 +6,17 @@
     <title>角色介绍 - 孤独摇滚小站</title>
     <link rel="stylesheet" href="../css/style.css">
     <style>
+                /* 页面背景 - 四人主题色渐变 */
+        /* body {
+            background: linear-gradient(135deg, 
+                rgba(255, 107, 107, 0.05) 0%, 
+                rgba(255, 193, 7, 0.05) 25%, 
+                rgba(72, 219, 251, 0.05) 50%, 
+                rgba(29, 209, 161, 0.05) 75%, 
+                rgba(155, 89, 182, 0.05) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        } */
         /* 详细信息展开动画 */
         .character-details {
             transition: all 0.5s ease;
@@ -42,7 +53,8 @@
             margin-right: 0.5rem;
             border: 2px solid white;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }        
+        }
+        
         /* 角色介绍主容器 */
         .characters-hero {
             background: linear-gradient(135deg, 
@@ -166,19 +178,10 @@
             gap: 2.5rem;
             margin-top: 2rem;
             padding: 0 1rem;
-            align-items: start; /*让项目从顶部开始对齐 */
+            align-items: start;
         }
         
         /* 角色卡片样式 */
-        /* .character-card {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: all 0.4s ease;
-            position: relative;
-            border: 3px solid transparent;
-        } */
         .character-card {
             background: white;
             border-radius: 20px;
@@ -187,13 +190,8 @@
             transition: all 0.4s ease;
             position: relative;
             border: 3px solid transparent;
-            height: auto; /* 确保高度自适应 */
-            min-height: 650px; /* 设置一个最小高度，根据你的内容调整 */
-        } 
-        .character-card.expanded {
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* 展开时阴影更深 */
-            z-index: 10; /* 确保展开的卡片在最上层 */
         }
+        
         /* 为每个角色卡片设置对应的颜色边框 */
         .character-card:nth-child(1) {
             border-color: #FFB6C1; /* 后藤一里 - 粉红色 */
@@ -697,6 +695,70 @@
             margin-right: 0.5rem;
         }
         
+        /* 弹出层样式 */
+        .character-details-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 1000;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: popupFadeIn 0.3s ease;
+        }
+        
+        @keyframes popupFadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        .close-popup {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-popup:hover {
+            background: #c0392b;
+            transform: scale(1.1);
+        }
+        
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+        }
+        
         /* 响应式调整 */
         @media (max-width: 768px) {
             .characters-hero h1 {
@@ -740,6 +802,11 @@
             .comparison-table {
                 display: block;
                 overflow-x: auto;
+            }
+            
+            .character-details-popup {
+                padding: 1.5rem;
+                width: 95%;
             }
         }
         
@@ -898,22 +965,10 @@
                     <div class="character-quote">
                         "我不要工作……"
                     </div>
-                    <!-- 详细信息展开区域 -->
-                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
-                        <div class="detail-section">
-                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
-                            <div class="detail-content" style="line-height: 1.6; color: #555;">
-                                <p><strong>昵称来源：</strong>「波奇」源自名字发音与「孤独」相近</p>
-                                <p><strong>网络身份：</strong>吉他英雄(Guitar Hero)，YouTube频道拥有数万粉丝</p>
-                                <p><strong>性格特点：</strong>严重社交恐惧症，内心活动丰富但表达能力差</p>
-                                <p><strong>家庭背景：</strong>有父母和妹妹，父亲也曾搞过乐队</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 添加展开按钮 -->
+                    
+                    <!-- 添加查看详细资料按钮 -->
                     <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
-                        显示详细资料
+                        查看详细资料
                     </button>
                 </div>
             </div>
@@ -990,23 +1045,11 @@
                     <div class="character-quote">
                         "音乐就是要大家一起玩才开心啊！"
                     </div>
-                    <!-- 详细信息展开区域 -->
-                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
-                        <div class="detail-section">
-                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
-                            <div class="detail-content" style="line-height: 1.6; color: #555;">
-                                <p><strong>工作地点：</strong>在Livehouse "STARRY" 打工，姐姐是店长</p>
-                                <p><strong>乐队角色：</strong>乐队发起人和精神支柱，发现并邀请后藤一里加入</p>
-                                <p><strong>性格特点：</strong>开朗活泼，善于照顾他人，是乐队的凝聚力来源</p>
-                                <p><strong>音乐理念：</strong>认为音乐是让人快乐的，应该大家一起享受</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 添加展开按钮 -->
+                    
+                    <!-- 添加查看详细资料按钮 -->
                     <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
-                        显示详细资料
-                    </button>                    
+                        查看详细资料
+                    </button>
                 </div>
             </div>
             
@@ -1082,22 +1125,10 @@
                     <div class="character-quote">
                         "借我点钱吧。"
                     </div>
-                    <!-- 详细信息展开区域 -->
-                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
-                        <div class="detail-section">
-                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
-                            <div class="detail-content" style="line-height: 1.6; color: #555;">
-                                <p><strong>音乐风格：</strong>对音乐有独特理解，喜欢实验性的演奏和音色</p>
-                                <p><strong>经济状况：</strong>经常经济困难，会把钱都花在音乐设备和唱片上</p>
-                                <p><strong>性格特点：</strong>冷静沉着，言行神秘，经常说出令人费解但有深意的话</p>
-                                <p><strong>特长：</strong>贝斯演奏技巧高超，音乐理论知识丰富</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 添加展开按钮 -->
+                    
+                    <!-- 添加查看详细资料按钮 -->
                     <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
-                        显示详细资料
+                        查看详细资料
                     </button>
                 </div>
             </div>
@@ -1174,29 +1205,18 @@
                     <div class="character-quote">
                         "一里同学，教我弹吉他吧！"
                     </div>
-                    <!-- 详细信息展开区域 -->
-                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
-                        <div class="detail-section">
-                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
-                            <div class="detail-content" style="line-height: 1.6; color: #555;">
-                                <p><strong>加入原因：</strong>因为崇拜山田凉而加入乐队，从零开始学习吉他</p>
-                                <p><strong>学习能力：</strong>进步神速，很快就能够参与乐队演出</p>
-                                <p><strong>性格特点：</strong>阳光开朗，典型的现充，善于交际，是后藤一里的同班同学</p>
-                                <p><strong>校园生活：</strong>在学校很受欢迎，经常参加各种社交活动</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 添加展开按钮 -->
+                    
+                    <!-- 添加查看详细资料按钮 -->
                     <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
-                        显示详细资料
-                    </button>                    
+                        查看详细资料
+                    </button>
                 </div>
             </div>
         </div>
+        
         <!-- 新增：角色成长时间线 -->
         <section class="character-growth" style="background: white; padding: 3rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 3rem 0;">
-            <h2 style="text-align: center; margin-bottom: 2rem; color: #2c3e50; position: relative; display: inline-block; left: 50%; transform: translateX(-50%);">
+            <h2 class="colorful-title" style="text-align: center; margin-bottom: 2rem; color: #2c3e50; position: relative; display: inline-block; left: 50%; transform: translateX(-50%);">
                 角色成长历程
                 <span style="position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B); border-radius: 2px;"></span>
             </h2>
@@ -1227,9 +1247,10 @@
                 </div>
             </div>
         </section>
+        
         <!-- 新增：乐队时间线 -->
         <div class="band-timeline">
-            <h2 class="timeline-title">結束バンド发展历程</h2>
+            <h2 class="timeline-title colorful-title">結束バンド发展历程</h2>
             <div class="timeline">
                 <div class="timeline-item">
                     <div class="timeline-content">
@@ -1245,13 +1266,13 @@
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">2022年12月（现实）</div>
+                        <div class="timeline-date">2022年12月</div>
                         <div class="timeline-text">发行首张专辑《結束バンド》，收录动画中的所有歌曲。</div>
                     </div>
                 </div>
                 <div class="timeline-item">
                     <div class="timeline-content">
-                        <div class="timeline-date">2023年5月（现实）</div>
+                        <div class="timeline-date">2023年5月</div>
                         <div class="timeline-text">发行第二张专辑《光の中へ》，收录两首新歌及伴奏版本。</div>
                     </div>
                 </div>
@@ -1260,94 +1281,53 @@
         
         <!-- 新增：角色对比表格 -->
         <div class="character-comparison">
-            <h2 class="comparison-title">角色对比</h2>
+            <h2 class="comparison-title colorful-title">角色对比</h2>
             <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>角色</th>
-            <th>代表颜色</th>
-            <th>乐器/担当</th>
-            <th>性格特点</th>
-            <th>经典台词</th>
-            <th>声优</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>后藤一里</strong></td>
-                    <td><span class="character-color" style="background: #FFB6C1;"></span>粉红色</td>
-                    <td>主音吉他/作词</td>
-                    <td>社恐、吉他天才、网络红人</td>
-                    <td>"我不要工作……"</td>
-                    <td>青山吉能</td>
-                </tr>
-                <tr>
-                    <td><strong>伊地知虹夏</strong></td>
-                    <td><span class="character-color" style="background: #FFFACD;"></span>亮黄色</td>
-                    <td>鼓手/队长</td>
-                    <td>开朗、领导力强、阳光</td>
-                    <td>"音乐就是要大家一起玩才开心啊！"</td>
-                    <td>铃代纱弓</td>
-                </tr>
-                <tr>
-                    <td><strong>山田凉</strong></td>
-                    <td><span class="character-color" style="background: #ADD8E6;"></span>蓝色</td>
-                    <td>贝斯手</td>
-                    <td>冷静、神秘、经济困难</td>
-                    <td>"借我点钱吧。"</td>
-                    <td>水野朔</td>
-                </tr>
-                <tr>
-                    <td><strong>喜多郁代</strong></td>
-                    <td><span class="character-color" style="background: #FF6B6B;"></span>红色</td>
-                    <td>吉他/主唱</td>
-                    <td>阳光、学习能力强、现充</td>
-                    <td>"一里同学，教我弹吉他吧！"</td>
-                    <td>长谷川育美</td>
-                </tr>
-            </tbody>
-        </table>
-            <!-- <table class="comparison-table">
                 <thead>
                     <tr>
                         <th>角色</th>
                         <th>代表颜色</th>
-                        <th>乐器</th>
+                        <th>乐器/担当</th>
                         <th>性格特点</th>
-                        <th>口头禅</th>
+                        <th>经典台词</th>
+                        <th>声优</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>后藤一里</td>
+                        <td><strong>后藤一里</strong></td>
                         <td><span class="character-color" style="background: #FFB6C1;"></span>粉红色</td>
-                        <td>吉他</td>
-                        <td>社恐、天才吉他手</td>
+                        <td>主音吉他/作词</td>
+                        <td>社恐、吉他天才、网络红人</td>
                         <td>"我不要工作……"</td>
+                        <td>青山吉能</td>
                     </tr>
                     <tr>
-                        <td>伊地知虹夏</td>
+                        <td><strong>伊地知虹夏</strong></td>
                         <td><span class="character-color" style="background: #FFFACD;"></span>亮黄色</td>
-                        <td>鼓</td>
-                        <td>开朗、领导力强</td>
+                        <td>鼓手/队长</td>
+                        <td>开朗、领导力强、阳光</td>
                         <td>"音乐就是要大家一起玩才开心啊！"</td>
+                        <td>铃代纱弓</td>
                     </tr>
                     <tr>
-                        <td>山田凉</td>
+                        <td><strong>山田凉</strong></td>
                         <td><span class="character-color" style="background: #ADD8E6;"></span>蓝色</td>
-                        <td>贝斯</td>
-                        <td>冷静、神秘</td>
+                        <td>贝斯手</td>
+                        <td>冷静、神秘、经济困难</td>
                         <td>"借我点钱吧。"</td>
+                        <td>水野朔</td>
                     </tr>
                     <tr>
-                        <td>喜多郁代</td>
+                        <td><strong>喜多郁代</strong></td>
                         <td><span class="character-color" style="background: #FF6B6B;"></span>红色</td>
                         <td>吉他/主唱</td>
-                        <td>阳光、学习能力强</td>
+                        <td>阳光、学习能力强、现充</td>
                         <td>"一里同学，教我弹吉他吧！"</td>
+                        <td>长谷川育美</td>
                     </tr>
                 </tbody>
-            </table> -->
+            </table>
         </div>
     </main>
 
@@ -1361,99 +1341,72 @@
                 <a href="production.html">制作幕后</a>
                 <a href="gallery.html">粉丝画廊</a>
             </div>
+            <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
+            </p>    
         </div>
     </footer>
     
-    <!-- <script>
-        // 技能条动画
-        document.addEventListener('DOMContentLoaded', function() {
-            const skillBars = document.querySelectorAll('.skill-progress');
-            
-            // 创建Intersection Observer来检测技能条是否在视口中
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const skillBar = entry.target;
-                        const width = skillBar.style.width;
-                        skillBar.style.width = '0';
-                        
-                        // 延迟一点时间开始动画，创造更好的视觉效果
-                        setTimeout(() => {
-                            skillBar.style.transition = 'width 1.5s ease';
-                            skillBar.style.width = width;
-                        }, 300);
-                        
-                        // 停止观察这个元素
-                        observer.unobserve(skillBar);
-                    }
-                });
-            }, { threshold: 0.5 });
-            
-            // 观察所有技能条
-            skillBars.forEach(skillBar => {
-                observer.observe(skillBar);
-            });
-        });
-    // 角色详细信息展开功能
-    document.addEventListener('DOMContentLoaded', function() {
-        // 详细信息切换
-        const toggleButtons = document.querySelectorAll('.toggle-details-btn');
-        
-        toggleButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const details = this.previousElementSibling;
-                const isHidden = details.style.display === 'none';
-                
-                if (isHidden) {
-                    details.style.display = 'block';
-                    this.textContent = '收起详细资料';
-                    // 添加展开动画
-                    details.style.opacity = '0';
-                    details.style.transform = 'translateY(10px)';
-                    setTimeout(() => {
-                        details.style.transition = 'all 0.5s ease';
-                        details.style.opacity = '1';
-                        details.style.transform = 'translateY(0)';
-                    }, 50);
-                } else {
-                    details.style.opacity = '0';
-                    details.style.transform = 'translateY(10px)';
-                    setTimeout(() => {
-                        details.style.display = 'none';
-                        this.textContent = '显示详细资料';
-                    }, 300);
-                }
-            });
-        });
-        
-        // 角色卡片悬停增强效果
-        const characterCards = document.querySelectorAll('.character-card');
-        characterCards.forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-15px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-        
-        // 表格行悬停效果
-        const tableRows = document.querySelectorAll('.comparison-table tbody tr');
-        tableRows.forEach(row => {
-            row.addEventListener('mouseenter', function() {
-                this.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
-                this.style.transform = 'scale(1.02)';
-                this.style.transition = 'all 0.3s ease';
-            });
-            
-            row.addEventListener('mouseleave', function() {
-                this.style.background = '';
-                this.style.transform = 'scale(1)';
-            });
-        });
-    });        
-    </script> -->
+    <!-- 弹出层结构 -->
+    <!-- 后藤一里弹出层 -->
+    <div class="character-details-popup" id="hitori-popup">
+        <button class="close-popup">×</button>
+        <h4 style="color: #2c3e50; margin-bottom: 1rem; padding-right: 2rem;">后藤一里 - 角色详情</h4>
+        <div class="detail-content" style="line-height: 1.6; color: #555;">
+            <p><strong>昵称来源：</strong>「波奇」源自名字发音与「孤独」相近</p>
+            <p><strong>网络身份：</strong>吉他英雄(Guitar Hero)，YouTube频道拥有数万粉丝</p>
+            <p><strong>性格特点：</strong>严重社交恐惧症，内心活动丰富但表达能力差</p>
+            <p><strong>家庭背景：</strong>有父母和妹妹，父亲也曾搞过乐队</p>
+            <p><strong>音乐风格：</strong>技术精湛的吉他演奏，擅长复杂的指法和速弹</p>
+            <p><strong>成长历程：</strong>从初中开始自学吉他，通过不断练习成为网络红人，但在现实中仍难以与人正常交流</p>
+        </div>
+    </div>
+    
+    <!-- 伊地知虹夏弹出层 -->
+    <div class="character-details-popup" id="nijika-popup">
+        <button class="close-popup">×</button>
+        <h4 style="color: #2c3e50; margin-bottom: 1rem; padding-right: 2rem;">伊地知虹夏 - 角色详情</h4>
+        <div class="detail-content" style="line-height: 1.6; color: #555;">
+            <p><strong>工作地点：</strong>在Livehouse "STARRY" 打工，姐姐是店长</p>
+            <p><strong>乐队角色：</strong>乐队发起人和精神支柱，发现并邀请后藤一里加入</p>
+            <p><strong>性格特点：</strong>开朗活泼，善于照顾他人，是乐队的凝聚力来源</p>
+            <p><strong>音乐理念：</strong>认为音乐是让人快乐的，应该大家一起享受</p>
+            <p><strong>鼓风特点：</strong>节奏感强，能够很好地配合其他乐手</p>
+            <p><strong>人际关系：</strong>与乐队所有成员关系良好，是连接大家的桥梁</p>
+        </div>
+    </div>
+    
+    <!-- 山田凉弹出层 -->
+    <div class="character-details-popup" id="ryo-popup">
+        <button class="close-popup">×</button>
+        <h4 style="color: #2c3e50; margin-bottom: 1rem; padding-right: 2rem;">山田凉 - 角色详情</h4>
+        <div class="detail-content" style="line-height: 1.6; color: #555;">
+            <p><strong>音乐风格：</strong>对音乐有独特理解，喜欢实验性的演奏和音色</p>
+            <p><strong>经济状况：</strong>经常经济困难，会把钱都花在音乐设备和唱片上</p>
+            <p><strong>性格特点：</strong>冷静沉着，言行神秘，经常说出令人费解但有深意的话</p>
+            <p><strong>特长：</strong>贝斯演奏技巧高超，音乐理论知识丰富</p>
+            <p><strong>音乐背景：</strong>有丰富的乐队经验，对各类音乐风格都有涉猎</p>
+            <p><strong>独特之处：</strong>能够准确指出其他成员的演奏问题并提出改进建议</p>
+        </div>
+    </div>
+    
+    <!-- 喜多郁代弹出层 -->
+    <div class="character-details-popup" id="kita-popup">
+        <button class="close-popup">×</button>
+        <h4 style="color: #2c3e50; margin-bottom: 1rem; padding-right: 2rem;">喜多郁代 - 角色详情</h4>
+        <div class="detail-content" style="line-height: 1.6; color: #555;">
+            <p><strong>加入原因：</strong>因为崇拜山田凉而加入乐队，从零开始学习吉他</p>
+            <p><strong>学习能力：</strong>进步神速，很快就能够参与乐队演出</p>
+            <p><strong>性格特点：</strong>阳光开朗，典型的现充，善于交际，是后藤一里的同班同学</p>
+            <p><strong>校园生活：</strong>在学校很受欢迎，经常参加各种社交活动</p>
+            <p><strong>音乐天赋：</strong>拥有出色的歌唱能力和舞台表现力</p>
+            <p><strong>成长变化：</strong>从完全不懂音乐到成为乐队的重要成员，展现了惊人的学习能力</p>
+        </div>
+    </div>
+    
+    <!-- 遮罩层 -->
+    <div class="popup-overlay"></div>
+    
     <script>
         // 技能条动画
         document.addEventListener('DOMContentLoaded', function() {
@@ -1484,37 +1437,75 @@
                 observer.observe(skillBar);
             });
 
-            // ============ 新增的代码从这里开始 ============
+            // ============ 弹出层功能 ============
             
-            // 角色详细信息展开功能
-            // 详细信息切换
+            // 角色详细信息弹出层功能
             const toggleButtons = document.querySelectorAll('.toggle-details-btn');
+            const closeButtons = document.querySelectorAll('.close-popup');
+            const overlay = document.querySelector('.popup-overlay');
+            const popups = document.querySelectorAll('.character-details-popup');
             
-            toggleButtons.forEach(button => {
+            // 为每个按钮添加点击事件
+            toggleButtons.forEach((button, index) => {
                 button.addEventListener('click', function() {
-                    const details = this.previousElementSibling;
-                    const isHidden = details.style.display === 'none';
+                    // 根据按钮位置确定显示哪个弹出层
+                    let popupId;
+                    switch(index) {
+                        case 0:
+                            popupId = 'hitori-popup';
+                            break;
+                        case 1:
+                            popupId = 'nijika-popup';
+                            break;
+                        case 2:
+                            popupId = 'ryo-popup';
+                            break;
+                        case 3:
+                            popupId = 'kita-popup';
+                            break;
+                    }
                     
-                    if (isHidden) {
-                        details.style.display = 'block';
-                        this.textContent = '收起详细资料';
-                        // 添加展开动画
-                        details.style.opacity = '0';
-                        details.style.transform = 'translateY(10px)';
-                        setTimeout(() => {
-                            details.style.transition = 'all 0.5s ease';
-                            details.style.opacity = '1';
-                            details.style.transform = 'translateY(0)';
-                        }, 50);
-                    } else {
-                        details.style.opacity = '0';
-                        details.style.transform = 'translateY(10px)';
-                        setTimeout(() => {
-                            details.style.display = 'none';
-                            this.textContent = '显示详细资料';
-                        }, 300);
+                    const popup = document.getElementById(popupId);
+                    
+                    if (popup) {
+                        popup.style.display = 'block';
+                        overlay.style.display = 'block';
+                        document.body.style.overflow = 'hidden'; // 防止背景滚动
                     }
                 });
+            });
+            
+            // 关闭按钮事件
+            closeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const popup = this.closest('.character-details-popup');
+                    
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = ''; // 恢复滚动
+                });
+            });
+            
+            // 点击遮罩层也关闭
+            if (overlay) {
+                overlay.addEventListener('click', function() {
+                    popups.forEach(popup => {
+                        popup.style.display = 'none';
+                    });
+                    this.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // 按ESC键关闭弹出层
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    popups.forEach(popup => {
+                        popup.style.display = 'none';
+                    });
+                    overlay.style.display = 'none';
+                    document.body.style.overflow = '';
+                }
             });
             
             // 角色卡片悬停增强效果
@@ -1544,6 +1535,6 @@
                 });
             });
         });
-    </script>    
+    </script>
 </body>
 </html>
