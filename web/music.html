@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐专辑 - 孤独摇滚小站</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 页面背景 - 四人主题色渐变 */
+        body {
+            background: linear-gradient(135deg, 
+                rgba(255, 107, 107, 0.05) 0%, 
+                rgba(255, 193, 7, 0.05) 25%, 
+                rgba(72, 219, 251, 0.05) 50%, 
+                rgba(29, 209, 161, 0.05) 75%, 
+                rgba(155, 89, 182, 0.05) 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .album-section {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .album-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+        }
+        
+        .album-section:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .album-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #ecf0f1;
+            position: relative;
+        }
+        
+        .album-title {
+            color: #2c3e50;
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+        }
+        
+        .album-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+            border-radius: 2px;
+        }
+        
+        .album-meta {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .album-meta::before, .album-meta::after {
+            content: "♪";
+            color: #e74c3c;
+            font-size: 1.2rem;
+        }
+        
+        .album-cover-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            perspective: 1000px;
+        }
+        
+        .album-cover {
+            width: 280px;
+            height: 280px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            overflow: hidden;
+            transition: all 0.5s ease;
+            position: relative;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        
+        .album-cover:hover {
+            transform: translateY(-10px) rotateX(5deg) scale(1.03);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+        }
+        
+        .album-cover-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .album-cover:hover .album-cover-img {
+            transform: scale(1.08);
+        }
+        
+        .album-cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(231, 76, 60, 0.85), rgba(243, 156, 18, 0.85));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .album-cover:hover .album-cover-overlay {
+            opacity: 1;
+        }
+        
+        .album-cover-overlay .icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .track-list {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease 0.5s forwards;
+            border: 1px solid #f1f2f6;
+        }
+        
+        @keyframes slideIn {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .track-item {
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .track-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+            transform: scaleY(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .track-item:hover {
+            background: #f8f9fa;
+            transform: translateX(10px);
+        }
+        
+        .track-item:hover::before {
+            transform: scaleY(1);
+        }
+        
+        .track-item:last-child {
+            border-bottom: none;
+        }
+        
+        .track-info {
+            flex: 1;
+        }
+        
+        .track-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .track-name::before {
+            content: "♫";
+            color: #e74c3c;
+            font-size: 1.2rem;
+        }
+        
+        .track-type {
+            color: #e74c3c;
+            font-size: 0.8rem;
+            background: #fdedec;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            display: inline-block;
+            margin-right: 0.5rem;
+            border: 1px solid #fadbd8;
+        }
+        
+        .track-duration {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-right: 15px;
+        }
+        
+        .listen-btn {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .listen-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+        }
+        
+        .music-description {
+            background: linear-gradient(135deg, #f8f9fa, #ecf0f1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2.5rem;
+            border-left: 5px solid #3498db;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease 0.7s forwards;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .music-description::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+        }
+        
+        .release-info {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border: 1px dashed #bdc3c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .release-info::before {
+            content: "ℹ️";
+            font-size: 1.2rem;
+        }
+        
+        /* 音乐播放器样式 */
+        .music-player {
+            background: linear-gradient(135deg, #2c3e50, #34495e);
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin: 2.5rem auto;
+            max-width: 700px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideIn 0.6s ease 0.9s forwards;
+        }
+        
+        .music-player::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71);
+        }
+        
+        .player-title {
+            color: #f39c12;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .player-title::before {
+            content: "🎵";
+            font-size: 1.8rem;
+        }
+        
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .play-btn, .pause-btn {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            transition: all 0.3s ease;
+        }
+        
+        .play-btn:hover, .pause-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.6);
+        }
+        
+        .prev-btn, .next-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .prev-btn:hover, .next-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            margin: 1.5rem 0;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            border-radius: 4px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+        
+        .time-display {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #bdc3c7;
+            margin-top: 5px;
+        }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+        
+        .volume-slider {
+            width: 100px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2.5px;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .volume-level {
+            height: 100%;
+            background: #f39c12;
+            border-radius: 2.5px;
+            width: 70%;
+        }
+        
+        /* 浮动元素 */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .floating-element {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+        
+        .floating-element:nth-child(1) {
+            top: 10%;
+            left: 5%;
+            width: 30px;
+            height: 30px;
+            background: rgba(243, 156, 18, 0.1);
+            animation-duration: 20s;
+        }
+        
+        .floating-element:nth-child(2) {
+            top: 70%;
+            left: 10%;
+            width: 50px;
+            height: 50px;
+            background: rgba(52, 152, 219, 0.1);
+            animation-duration: 25s;
+        }
+        
+        .floating-element:nth-child(3) {
+            top: 40%;
+            right: 5%;
+            width: 35px;
+            height: 35px;
+            background: rgba(46, 204, 113, 0.1);
+            animation-duration: 18s;
+        }
+        
+        .floating-element:nth-child(4) {
+            top: 80%;
+            right: 15%;
+            width: 45px;
+            height: 45px;
+            background: rgba(155, 89, 182, 0.1);
+            animation-duration: 22s;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-20px) rotate(180deg);
+            }
+            100% {
+                transform: translateY(0) rotate(360deg);
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .album-cover {
+                width: 220px;
+                height: 220px;
+            }
+            
+            .track-item {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .track-duration {
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .music-player {
+                padding: 1.5rem;
+            }
+            
+            .player-controls {
+                gap: 15px;
+            }
+            
+            .play-btn, .pause-btn {
+                width: 50px;
+                height: 50px;
+            }
+            
+            .prev-btn, .next-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 浮动背景元素 -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><a href="../index.html" style="color: #f39c12; text-decoration: none;">孤独摇滚小站</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">作品介绍</a></li>
+                <li class="nav-item"><a href="characters.html" class="nav-link">角色介绍</a></li>
+                <li class="nav-item"><a href="music.html" class="nav-link active">音乐专辑</a></li>
+                <li class="nav-item"><a href="production.html" class="nav-link">制作幕后</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">粉丝画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding: 2rem 0; min-height: 60vh;">
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50; position: relative; display: inline-block; left: 50%; transform: translateX(-50%);">
+            <span style="background: linear-gradient(135deg, #e74c3c, #f39c12, #3498db, #2ecc71); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">音乐专辑</span>
+        </h1>
+        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 800px; margin-left: auto; margin-right: auto; font-size: 1.1rem;">
+            「結束バンド」的音乐作品，每一首都充满了青春的热情与成长的烦恼，让我们一起沉浸在音乐的海洋中吧！
+        </p>
+        
+        <!-- 第一张专辑 -->
+        <div class="album-section">
+            <div class="album-header">
+                <h2 class="album-title">結束バンド</h2>
+                <div class="album-meta">首张专辑 · 2022年12月25日发行</div>
+            </div>
+            
+            <!-- 专辑封面区域 -->
+            <div class="album-cover-container">
+                <div class="album-cover">
+                    <img class="album-cover-img" src="../images/music/album1.jpg" alt="結束バンド专辑封面">
+                    <div class="album-cover-overlay">
+                        <div class="icon">🎸</div>
+                        <div>点击查看专辑详情</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="track-list">
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">青春コンプレックス</div>
+                        <div class="track-duration">TV动画《孤独摇滚！》片头曲</div>
+                    </div>
+                    <div class="track-duration">3:25</div>
+                    <button class="listen-btn" data-audio="../audio/album1_track1.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">Distortion!!</div>
+                        <div class="track-duration">TV动画《孤独摇滚！》插入曲</div>
+                    </div>
+                    <div class="track-duration">3:20</div>
+                    <button class="listen-btn" data-audio="../audio/album1_track2.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">ひみつ基地</div>
+                        <div class="track-duration">TV动画《孤独摇滚！》插入曲</div>
+                    </div>
+                    <div class="track-duration">4:07</div>
+                    <button class="listen-btn" data-audio="../audio/album1_track3.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">あのバンド</div>
+                        <div class="track-duration">TV动画《孤独摇滚！》插入曲</div>
+                    </div>
+                    <div class="track-duration">3:33</div>
+                    <button class="listen-btn" data-audio="../audio/album1_track4.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">カラカラ</div>
+                        <div class="track-duration">TV动画《孤独摇滚！》片尾曲</div>
+                    </div>
+                    <div class="track-duration">3:43</div>
+                    <button class="listen-btn" data-audio="../audio/album1_track5.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 音乐播放器 -->
+            <div class="music-player">
+                <div class="player-title">专辑试听</div>
+                <div class="player-controls">
+                    <button class="prev-btn">⏮</button>
+                    <button class="play-btn">▶</button>
+                    <button class="pause-btn" style="display: none;">⏸</button>
+                    <button class="next-btn">⏭</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="time-display">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">0:00</span>
+                </div>
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <div class="volume-slider">
+                        <div class="volume-level"></div>
+                    </div>
+                </div>
+                <audio id="audio-player" preload="metadata">
+                    <!-- 音频文件路径 -->
+                    <source src="../audio/album1_track1.mp3" type="audio/mpeg">
+                    您的浏览器不支持音频播放。
+                </audio>
+            </div>
+            
+            <div class="music-description">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem;">专辑简介</h3>
+                <p style="line-height: 1.6; color: #555;">
+                    「結束バンド」的首张专辑，收录了TV动画《孤独摇滚！》中的所有歌曲。专辑完美展现了乐队成员的个性与成长，从青春的烦恼到音乐的热情，每一首歌都充满了真挚的情感。这张专辑不仅是动画的配乐，更是乐队成员们音乐旅程的真实写照。
+                </p>
+            </div>
+        </div>
+        
+        <!-- 第二张专辑 -->
+        <div class="album-section">
+            <div class="album-header">
+                <h2 class="album-title">光の中へ</h2>
+                <div class="album-meta">第二张专辑 · 2023年5月22日发行</div>
+            </div>
+            
+            <div class="release-info">
+                通过索尼音乐发行 · 在乐队"恒星"演唱会次日推出
+            </div>
+            
+            <!-- 专辑封面区域 -->
+            <div class="album-cover-container">
+                <div class="album-cover">
+                    <img class="album-cover-img" src="../images/music/album2.jpg" alt="光の中へ专辑封面">
+                    <div class="album-cover-overlay">
+                        <div class="icon">🎶</div>
+                        <div>点击查看专辑详情</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="track-list">
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">光の中へ</div>
+                        <div class="track-duration">主打歌曲 · 日语摇滚风格</div>
+                    </div>
+                    <div class="track-duration">4:15</div>
+                    <button class="listen-btn" data-audio="../audio/album2_track1.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">青い春と西の空</div>
+                        <div class="track-duration">日语摇滚风格</div>
+                    </div>
+                    <div class="track-duration">3:52</div>
+                    <button class="listen-btn" data-audio="../audio/album2_track2.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">光の中へ (Instrumental)</div>
+                        <div class="track-duration">伴奏版本</div>
+                    </div>
+                    <div class="track-duration">4:15</div>
+                    <button class="listen-btn" data-audio="../audio/album2_track3.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+                
+                <div class="track-item">
+                    <div class="track-info">
+                        <div class="track-name">青い春と西の空 (Instrumental)</div>
+                        <div class="track-duration">伴奏版本</div>
+                    </div>
+                    <div class="track-duration">3:52</div>
+                    <button class="listen-btn" data-audio="../audio/album2_track4.mp3">
+                        <span>播放</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 音乐播放器 -->
+            <div class="music-player">
+                <div class="player-title">专辑试听</div>
+                <div class="player-controls">
+                    <button class="prev-btn">⏮</button>
+                    <button class="play-btn">▶</button>
+                    <button class="pause-btn" style="display: none;">⏸</button>
+                    <button class="next-btn">⏭</button>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar"></div>
+                </div>
+                <div class="time-display">
+                    <span class="current-time">0:00</span>
+                    <span class="total-time">0:00</span>
+                </div>
+                <div class="volume-control">
+                    <span>🔊</span>
+                    <div class="volume-slider">
+                        <div class="volume-level"></div>
+                    </div>
+                </div>
+                <audio id="audio-player-2" preload="metadata">
+                    <!-- 音频文件路径 -->
+                    <source src="../audio/album2_track1.mp3" type="audio/mpeg">
+                    您的浏览器不支持音频播放。
+                </audio>
+            </div>
+            
+            <div class="music-description">
+                <h3 style="color: #2c3e50; margin-bottom: 1rem;">专辑亮点</h3>
+                <p style="line-height: 1.6; color: #555;">
+                    这张专辑《光の中へ》于2023年5月22日通过索尼音乐正式发行，在乐队"恒星"演唱会的次日推出。专辑收录了《光の中へ》和《青い春と西の空》两首全新的日语摇滚风格歌曲，以及它们对应的伴奏版本，共4首曲目。专辑名称"光の中へ"（向着光芒）象征着乐队成员们突破自我，向着更广阔的音乐舞台前进的决心与希望。这张专辑展现了乐队在音乐创作上的成熟与进步，是他们音乐旅程中的重要里程碑。
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="../index.html">首页</a>
+                <a href="about.html">作品介绍</a>
+                <a href="characters.html">角色介绍</a>
+                <a href="music.html">音乐专辑</a>
+                <a href="production.html">制作幕后</a>
+                <a href="gallery.html">粉丝画廊</a>
+            </div>
+            <p class="copyright">
+                孤独摇滚小站 | 本网站为粉丝的新生实践课作品，与官方无关
+            </p>
+        </div>
+    </footer>
+
+    <script>
+    // 音乐播放器功能
+    document.addEventListener('DOMContentLoaded', function() {
+        // 为每个专辑的播放按钮添加事件
+        document.querySelectorAll('.listen-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const audioSrc = this.getAttribute('data-audio');
+                // 找到离这个按钮最近的专辑区块和其中的播放器
+                const albumSection = this.closest('.album-section');
+                const audioPlayer = albumSection.querySelector('audio');
+                const playBtn = albumSection.querySelector('.play-btn');
+                const pauseBtn = albumSection.querySelector('.pause-btn');
+                
+                // 获取当前专辑的所有歌曲
+                const trackItems = albumSection.querySelectorAll('.track-item');
+                
+                // 找到当前点击的歌曲索引
+                let currentIndex = -1;
+                for (let i = 0; i < trackItems.length; i++) {
+                    if (trackItems[i].contains(this)) {
+                        currentIndex = i;
+                        break;
+                    }
+                }
+                
+                // 将当前索引保存到播放器
+                audioPlayer.setAttribute('data-current-index', currentIndex);
+                
+                // 重要：先暂停所有其他音频，避免重叠播放
+                document.querySelectorAll('audio').forEach(audio => {
+                    if (audio !== audioPlayer) {
+                        audio.pause();
+                        // 同步重置其他播放器的按钮状态
+                        const otherPlayBtn = audio.closest('.album-section').querySelector('.play-btn');
+                        const otherPauseBtn = audio.closest('.album-section').querySelector('.pause-btn');
+                        if (otherPlayBtn && otherPauseBtn) {
+                            otherPlayBtn.style.display = 'block';
+                            otherPauseBtn.style.display = 'none';
+                        }
+                    }
+                });
+
+                // 如果点击的是当前正在播放的歌曲，则暂停
+                if (audioPlayer.src.includes(audioSrc) && !audioPlayer.paused) {
+                    audioPlayer.pause();
+                    playBtn.style.display = 'block';
+                    pauseBtn.style.display = 'none';
+                } else {
+                    // 设置新的音频源并播放
+                    audioPlayer.src = audioSrc;
+                    // 确保先加载
+                    audioPlayer.load(); 
+
+                    const playPromise = audioPlayer.play();
+
+                    if (playPromise !== undefined) {
+                        playPromise.then(_ => {
+                            // 自动播放成功
+                            playBtn.style.display = 'none';
+                            pauseBtn.style.display = 'block';
+                        }).catch(error => {
+                            // 自动播放失败，通常是浏览器策略导致，等待用户再次交互
+                            console.log("自动播放被阻止，需要用户再次交互。");
+                            playBtn.style.display = 'block';
+                            pauseBtn.style.display = 'none';
+                        });
+                    }
+                }
+            });
+        });
+
+        // 为每个专辑区块的播放/暂停按钮绑定事件（控制各自的播放器）
+        document.querySelectorAll('.music-player').forEach(player => {
+            const audioPlayer = player.querySelector('audio');
+            const playBtn = player.querySelector('.play-btn');
+            const pauseBtn = player.querySelector('.pause-btn');
+            const prevBtn = player.querySelector('.prev-btn');
+            const nextBtn = player.querySelector('.next-btn');
+            const progressBar = player.querySelector('.progress-bar');
+            const progressContainer = player.querySelector('.progress-container');
+            const currentTimeEl = player.querySelector('.current-time');
+            const totalTimeEl = player.querySelector('.total-time');
+            const volumeSlider = player.querySelector('.volume-slider');
+            const volumeLevel = player.querySelector('.volume-level');
+            
+            // 初始化当前播放索引
+            audioPlayer.setAttribute('data-current-index', '0');
+
+            // 播放/暂停按钮事件
+            playBtn.addEventListener('click', () => {
+                const playPromise = audioPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.style.display = 'none';
+                        pauseBtn.style.display = 'block';
+                    }).catch(error => {
+                        console.error("播放失败:", error);
+                    });
+                }
+            });
+
+            pauseBtn.addEventListener('click', () => {
+                audioPlayer.pause();
+                playBtn.style.display = 'block';
+                pauseBtn.style.display = 'none';
+            });
+
+            // 上一首按钮事件
+            prevBtn.addEventListener('click', () => {
+                const albumSection = player.closest('.album-section');
+                const trackItems = albumSection.querySelectorAll('.track-item');
+                let currentIndex = parseInt(audioPlayer.getAttribute('data-current-index'));
+                
+                // 计算上一首的索引
+                currentIndex = (currentIndex - 1 + trackItems.length) % trackItems.length;
+                audioPlayer.setAttribute('data-current-index', currentIndex);
+                
+                // 获取上一首歌曲的播放按钮
+                const prevTrackBtn = trackItems[currentIndex].querySelector('.listen-btn');
+                const prevAudioSrc = prevTrackBtn.getAttribute('data-audio');
+                
+                // 设置新的音频源并播放
+                audioPlayer.src = prevAudioSrc;
+                audioPlayer.load();
+                
+                const playPromise = audioPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.style.display = 'none';
+                        pauseBtn.style.display = 'block';
+                    }).catch(error => {
+                        console.error("播放失败:", error);
+                    });
+                }
+            });
+
+            // 下一首按钮事件
+            nextBtn.addEventListener('click', () => {
+                const albumSection = player.closest('.album-section');
+                const trackItems = albumSection.querySelectorAll('.track-item');
+                let currentIndex = parseInt(audioPlayer.getAttribute('data-current-index'));
+                
+                // 计算下一首的索引
+                currentIndex = (currentIndex + 1) % trackItems.length;
+                audioPlayer.setAttribute('data-current-index', currentIndex);
+                
+                // 获取下一首歌曲的播放按钮
+                const nextTrackBtn = trackItems[currentIndex].querySelector('.listen-btn');
+                const nextAudioSrc = nextTrackBtn.getAttribute('data-audio');
+                
+                // 设置新的音频源并播放
+                audioPlayer.src = nextAudioSrc;
+                audioPlayer.load();
+                
+                const playPromise = audioPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.style.display = 'none';
+                        pauseBtn.style.display = 'block';
+                    }).catch(error => {
+                        console.error("播放失败:", error);
+                    });
+                }
+            });
+
+            // 更新进度条
+            audioPlayer.addEventListener('timeupdate', () => {
+                const currentTime = audioPlayer.currentTime;
+                const duration = audioPlayer.duration;
+                if (duration) {
+                    const progressPercent = (currentTime / duration) * 100;
+                    progressBar.style.width = `${progressPercent}%`;
+                    currentTimeEl.textContent = formatTime(currentTime);
+                    totalTimeEl.textContent = formatTime(duration);
+                }
+            });
+
+            // 点击进度条跳转
+            progressContainer.addEventListener('click', (e) => {
+                const width = progressContainer.clientWidth;
+                const clickX = e.offsetX;
+                const duration = audioPlayer.duration;
+                if (duration) {
+                    audioPlayer.currentTime = (clickX / width) * duration;
+                }
+            });
+
+            // 音量控制
+            volumeSlider.addEventListener('click', (e) => {
+                const width = volumeSlider.clientWidth;
+                const clickX = e.offsetX;
+                const volume = Math.max(0, Math.min(1, clickX / width)); // 确保在0-1之间
+                audioPlayer.volume = volume;
+                volumeLevel.style.width = `${volume * 100}%`;
+            });
+
+            // 音频播放结束 - 自动播放下一首
+            audioPlayer.addEventListener('ended', () => {
+                const albumSection = player.closest('.album-section');
+                const trackItems = albumSection.querySelectorAll('.track-item');
+                let currentIndex = parseInt(audioPlayer.getAttribute('data-current-index'));
+                
+                // 计算下一首的索引
+                currentIndex = (currentIndex + 1) % trackItems.length;
+                audioPlayer.setAttribute('data-current-index', currentIndex);
+                
+                // 获取下一首歌曲的播放按钮
+                const nextTrackBtn = trackItems[currentIndex].querySelector('.listen-btn');
+                const nextAudioSrc = nextTrackBtn.getAttribute('data-audio');
+                
+                // 设置新的音频源并播放
+                audioPlayer.src = nextAudioSrc;
+                audioPlayer.load();
+                
+                const playPromise = audioPlayer.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(_ => {
+                        playBtn.style.display = 'none';
+                        pauseBtn.style.display = 'block';
+                    }).catch(error => {
+                        console.error("播放失败:", error);
+                    });
+                }
+            });
+        });
+
+        // 格式化时间显示
+        function formatTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const min = Math.floor(seconds / 60);
+            const sec = Math.floor(seconds % 60);
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+    });
+    </script>    
+</body>
+</html>

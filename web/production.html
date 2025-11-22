@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>制作幕后 - 孤独摇滚小站</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .info-card h2 {
+            color: #2c3e50;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #ecf0f1;
+        }
+        
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .staff-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .staff-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .staff-role {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .staff-works {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .voice-actors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .voice-actor {
+            text-align: center;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .voice-actor:hover {
+            transform: translateY(-5px);
+        }
+        
+        .actor-avatar {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #9b59b6, #3498db);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .actor-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.25rem;
+        }
+        
+        .actor-character {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .actor-works {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .trivia-list {
+            list-style: none;
+        }
+        
+        .trivia-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid #ecf0f1;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .trivia-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .trivia-icon {
+            background: #f39c12;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .trivia-content {
+            flex: 1;
+        }
+        
+        .trivia-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .trivia-desc {
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><a href="../index.html" style="color: #f39c12; text-decoration: none;">孤独摇滚小站</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">作品介绍</a></li>
+                <li class="nav-item"><a href="characters.html" class="nav-link">角色介绍</a></li>
+                <li class="nav-item"><a href="music.html" class="nav-link">音乐专辑</a></li>
+                <li class="nav-item"><a href="production.html" class="nav-link active">制作幕后</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">粉丝画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding: 2rem 0; min-height: 60vh;">
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">制作幕后</h1>
+        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 800px; margin-left: auto; margin-right: auto;">
+            探索《孤独摇滚！》背后的创作故事，了解这部优秀作品是如何诞生的。
+        </p>
+        
+        <!-- 制作公司信息 -->
+        <div class="info-card">
+            <h2>制作团队</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
+                《孤独摇滚！》由知名动画制作公司CloverWorks负责制作，该公司以高质量的作品和对细节的注重而闻名。
+            </p>
+            
+            <div class="staff-grid">
+                <div class="staff-item">
+                    <div class="staff-name">斋藤圭一郎</div>
+                    <div class="staff-role">导演</div>
+                    <div class="staff-works">代表作：《奇诺之旅》、《更衣人偶坠入爱河》</div>
+                </div>
+                
+                <div class="staff-item">
+                    <div class="staff-name">吉田惠理子</div>
+                    <div class="staff-role">角色设计 · 总作画监督</div>
+                    <div class="staff-works">代表作：《魔法少女小圆》、《三月的狮子》</div>
+                </div>
+                
+                <div class="staff-item">
+                    <div class="staff-name">滨路晶</div>
+                    <div class="staff-role">原作</div>
+                    <div class="staff-works">《孤独摇滚！》漫画作者</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 声优阵容 -->
+        <div class="info-card">
+            <h2>声优阵容</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
+                实力派声优们为《孤独摇滚！》的角色注入了灵魂，她们的精彩演绎让角色更加生动立体。
+            </p>
+            
+            <div class="voice-actors">
+                <div class="voice-actor">
+                    <div class="actor-avatar">长谷川</div>
+                    <div class="actor-name">长谷川育美</div>
+                    <div class="actor-character">配音：后藤一里</div>
+                    <div class="actor-works">代表作：《明日方舟》阿米娅</div>
+                </div>
+                
+                <div class="voice-actor">
+                    <div class="actor-avatar">水野</div>
+                    <div class="actor-name">水野朔</div>
+                    <div class="actor-character">配音：伊地知虹夏</div>
+                    <div class="actor-works">代表作：《LoveLive!超级明星!!》涩谷香音</div>
+                </div>
+                
+                <div class="voice-actor">
+                    <div class="actor-avatar">青山</div>
+                    <div class="actor-name">青山吉能</div>
+                    <div class="actor-character">配音：山田凉</div>
+                    <div class="actor-works">代表作：《少女终末旅行》千都</div>
+                </div>
+                
+                <div class="voice-actor">
+                    <div class="actor-avatar">铃木</div>
+                    <div class="actor-name">铃代纱弓</div>
+                    <div class="actor-character">配音：喜多郁代</div>
+                    <div class="actor-works">代表作：《古见同学有交流障碍症》长名奈津美</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 制作趣闻 -->
+        <div class="info-card">
+            <h2>制作趣闻</h2>
+            <p style="line-height: 1.6; margin-bottom: 1.5rem; color: #555;">
+                在《孤独摇滚！》的制作过程中，发生了许多有趣的故事和值得关注的细节。
+            </p>
+            
+            <ul class="trivia-list">
+                <li>
+                    <div class="trivia-icon">!</div>
+                    <div class="trivia-content">
+                        <div class="trivia-title">真实的乐器演奏</div>
+                        <div class="trivia-desc">
+                            动画中所有乐器演奏场景都经过精心制作，声优们实际上接受了乐器训练，以确保演奏动作的真实性。特别是吉他演奏场景，每一帧都经过专业吉他手的指导。
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="trivia-icon">!</div>
+                    <div class="trivia-content">
+                        <div class="trivia-title">角色设计的灵感</div>
+                        <div class="trivia-desc">
+                            角色设计师吉田惠理子表示，后藤一里的设计灵感来自于"想要创造一个既可爱又让人心疼的角色"。她的粉色运动服象征着内心的封闭，而吉他却代表着她与外界的连接。
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="trivia-icon">!</div>
+                    <div class="trivia-content">
+                        <div class="trivia-title">音乐制作的用心</div>
+                        <div class="trivia-desc">
+                            动画中的每一首原创歌曲都由专业音乐人创作，并且根据角色的性格和成长阶段量身定制。例如，《青春コンプレックス》的歌词完美契合了后藤一里的内心世界。
+                        </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="trivia-icon">!</div>
+                    <div class="trivia-content">
+                        <div class="trivia-title">真实场景的参考</div>
+                        <div class="trivia-desc">
+                            动画中出现的Livehouse"STARRY"参考了东京下北泽地区真实的音乐场所，制作团队亲自前往实地考察，捕捉了地下音乐场景的独特氛围。
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="../index.html">首页</a>
+                <a href="about.html">作品介绍</a>
+                <a href="characters.html">角色介绍</a>
+                <a href="music.html">音乐专辑</a>
+                <a href="production.html">制作幕后</a>
+                <a href="gallery.html">粉丝画廊</a>
+            </div>
+            <p class="copyright">
+            </p>
+        </div>
+    </footer>
+</body>
+</html>

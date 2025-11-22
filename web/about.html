@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>作品介绍 - 孤独摇滚小站</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 自定义样式 */
+        .about-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('../images/about/hero-bg.jpg') center/cover;
+            height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            margin-bottom: 3rem;
+            border-radius: 0 0 20px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+        
+        .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            animation: slideInDown 1s ease-out;
+        }
+        
+        .about-hero p {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            animation: slideInUp 1s ease-out 0.3s forwards;
+            opacity: 0;
+        }
+        
+        .content-section {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .content-section:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .content-section:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        .content-section:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+        
+        .section-title {
+            color: #e74c3c;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid #f39c12;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: #e74c3c;
+        }
+        
+        .story-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .story-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .story-image {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .story-image:hover {
+            transform: translateY(-5px);
+        }
+        
+        .story-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* 作品特色部分 - 四色主题背景 */
+        .features-section {
+            background: linear-gradient(135deg, 
+                #FFB6C1 0%, #FFB6C1 25%, 
+                #FFFACD 25%, #FFFACD 50%, 
+                #ADD8E6 50%, #ADD8E6 75%, 
+                #FFB6C1 75%, #FFB6C1 100%);
+            background-size: 200% 200%;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 10s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .features-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.85);
+            z-index: 1;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 2px solid transparent;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* 为每个卡片添加对应的角色颜色边框 */
+        .feature-card:nth-child(1) {
+            border-color: #FFB6C1; /* 后藤一里 - 粉红色 */
+        }
+        
+        .feature-card:nth-child(2) {
+            border-color: #FFFACD; /* 伊地知虹夏 - 亮黄色 */
+        }
+        
+        .feature-card:nth-child(3) {
+            border-color: #FF6B6B; /* 喜多郁代 - 红色 */
+        }
+        
+        .feature-card:nth-child(4) {
+            border-color: #ADD8E6; /* 山田凉 - 蓝色 */
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            transform: scaleX(0);
+            transition: transform 0.5s ease;
+        }
+        
+        /* 为每个卡片添加对应的角色颜色顶部边框 */
+        .feature-card:nth-child(1)::before {
+            background: linear-gradient(90deg, #FFB6C1, #FF69B4);
+        }
+        
+        .feature-card:nth-child(2)::before {
+            background: linear-gradient(90deg, #FFFACD, #FFD700);
+        }
+        
+        .feature-card:nth-child(3)::before {
+            background: linear-gradient(90deg, #FF6B6B, #FF4757);
+        }
+        
+        .feature-card:nth-child(4)::before {
+            background: linear-gradient(90deg, #ADD8E6, #1E90FF);
+        }
+        
+        .feature-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .feature-image-container {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            transition: all 0.4s ease;
+            border: 4px solid white;
+        }
+        
+        .feature-card:hover .feature-image-container {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        
+        .feature-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .feature-card:hover .feature-image {
+            transform: scale(1.1);
+        }
+        
+        .feature-image-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        /* 为每个卡片添加对应的角色颜色覆盖层 */
+        .feature-card:nth-child(1) .feature-image-container::after {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.3), rgba(255, 105, 180, 0.3));
+        }
+        
+        .feature-card:nth-child(2) .feature-image-container::after {
+            background: linear-gradient(135deg, rgba(255, 250, 205, 0.3), rgba(255, 215, 0, 0.3));
+        }
+        
+        .feature-card:nth-child(3) .feature-image-container::after {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 71, 87, 0.3));
+        }
+        
+        .feature-card:nth-child(4) .feature-image-container::after {
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.3), rgba(30, 144, 255, 0.3));
+        }
+        
+        .feature-card:hover .feature-image-container::after {
+            opacity: 1;
+        }
+        
+        .feature-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-card h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .feature-card h4::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        /* 为每个卡片添加对应的角色颜色下划线 */
+        .feature-card:nth-child(1) h4::after {
+            background: #FFB6C1;
+        }
+        
+        .feature-card:nth-child(2) h4::after {
+            background: #FFFACD;
+        }
+        
+        .feature-card:nth-child(3) h4::after {
+            background: #FF6B6B;
+        }
+        
+        .feature-card:nth-child(4) h4::after {
+            background: #ADD8E6;
+        }
+        
+        .feature-card:hover h4::after {
+            width: 70px;
+        }
+        
+        .feature-card p {
+            color: #666;
+            line-height: 1.6;
+            transition: color 0.3s ease;
+        }
+        
+        .feature-card:hover p {
+            color: #555;
+        }
+        
+        .characters-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        .character-item {
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .character-item:hover {
+            transform: translateY(-10px);
+        }
+        
+        .character-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 1rem;
+            border: 4px solid #f39c12;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .character-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .character-item:hover .character-avatar img {
+            transform: scale(1.1);
+        }
+        
+        .character-name {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .character-role {
+            color: #e74c3c;
+            font-size: 0.9rem;
+        }
+        
+        /* 动画定义 */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 2rem;
+            }
+            
+            .about-hero p {
+                font-size: 1.2rem;
+            }
+            
+            .story-content {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-section {
+                padding: 2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><a href="../index.html" style="color: #f39c12; text-decoration: none;">孤独摇滚小站</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link active">作品介绍</a></li>
+                <li class="nav-item"><a href="characters.html" class="nav-link">角色介绍</a></li>
+                <li class="nav-item"><a href="music.html" class="nav-link">音乐专辑</a></li>
+                <li class="nav-item"><a href="production.html" class="nav-link">制作幕后</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">粉丝画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div>
+            <h1>《孤独摇滚！》</h1>
+            <p>音乐与青春的碰撞，内向少女的摇滚之旅</p>
+        </div>
+    </section>
+
+    <main class="container" style="padding: 0 0 3rem 0; min-height: 60vh;">
+        <!-- 作品简介部分 -->
+        <section class="content-section">
+            <h2 class="section-title">作品简介</h2>
+            <div class="story-content">
+                <div class="story-text">
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+                        《孤独摇滚！》（日语：ぼっち・ざ・ろっく!）是滨路晶创作的四格漫画，于2018年开始在芳文社的《Manga Time Kirara Max》连载。改编电视动画由CloverWorks制作，于2022年10月至12月播映。
+                    </p>
+                    <p style="line-height: 1.8;">
+                        这部作品以其对社恐心理的真实描绘和高质量的音乐制作赢得了观众的广泛好评，成为了当年秋季动画的一匹黑马。
+                    </p>
+                </div>
+                <div class="story-image">
+                    <!-- 替换这里的图片路径 -->
+                    <img src="../images/about/intro-image.jpg" alt="孤独摇滚作品海报">
+                </div>
+            </div>
+        </section>
+        
+        <!-- 故事梗概部分 -->
+        <section class="content-section">
+            <h2 class="section-title">故事梗概</h2>
+            <div class="story-content">
+                <div class="story-image">
+                    <!-- 替换这里的图片路径 -->
+                    <img src="../images/about/story-image.jpg" alt="結束バンド演出场景">
+                </div>
+                <div class="story-text">
+                    <p style="line-height: 1.8; margin-bottom: 1.5rem;">
+                        故事主角"后藤一里"是一名极度怕生的吉他手女孩。她渴望组建乐队、结交朋友，却因为性格原因屡屡失败。她在网络上以"guitarhero"的名义发布吉他演奏视频，获得了大量关注，但在现实生活中却几乎没有朋友。
+                    </p>
+                    <p style="line-height: 1.8;">
+                        某天，她被开朗活泼的鼓手"伊地知虹夏"发现吉他才华，并被邀请加入其乐队"結束バンド"。尽管内心充满恐惧和不安，一里还是鼓起勇气接受了邀请，从此开始了她的音乐与成长之旅。
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 作品特色部分 - 四色主题背景 -->
+        <section class="features-section">
+            <h2 class="section-title" style="color: #2c3e50; background: rgba(255,255,255,0.8); padding: 0.5rem 1.5rem; border-radius: 10px; display: inline-block;">作品特色</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-image-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="feature-image" src="../images/about/feature-psychology.gif" alt="心理描绘特色">
+                    </div>
+                    <div class="feature-content">
+                        <h4>真实心理描绘</h4>
+                        <p>细腻刻画社恐人群的内心世界，让许多观众产生强烈共鸣。从一里的社交恐惧到逐渐成长的过程，展现了真实的心理变化。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-image-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="feature-image" src="../images/about/feature-music.jpg" alt="音乐特色">
+                    </div>
+                    <div class="feature-content">
+                        <h4>高质量音乐</h4>
+                        <p>专业的音乐制作和真实的乐器演奏场景，带来沉浸式体验。每一首歌曲都精心制作，完美契合剧情发展和角色情感。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-image-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="feature-image" src="../images/about/feature-friendship.jpg" alt="友情特色">
+                    </div>
+                    <div class="feature-content">
+                        <h4>温暖友情</h4>
+                        <p>四位性格迥异的女孩通过音乐建立的深厚友谊，治愈人心。她们互相支持、共同成长的故事温暖而真实。</p>
+                    </div>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-image-container">
+                        <!-- 替换这里的图片路径 -->
+                        <img class="feature-image" src="../images/about/feature-production.jpg" alt="制作特色">
+                    </div>
+                    <div class="feature-content">
+                        <h4>精美制作</h4>
+                        <p>CloverWorks的精良制作，画面流畅，角色设计可爱生动。动画中的每一帧都充满了细节和用心。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- 主要角色展示 -->
+        <section class="content-section">
+            <h2 class="section-title">主要角色</h2>
+            <div class="characters-showcase">
+                <div class="character-item">
+                    <div class="character-avatar">
+                        <!-- 替换这里的图片路径 -->
+                        <img src="../images/about/character-hitori.jpg" alt="后藤一里">
+                    </div>
+                    <div class="character-name">后藤一里</div>
+                    <div class="character-role">吉他手 · 主唱</div>
+                </div>
+                <div class="character-item">
+                    <div class="character-avatar">
+                        <!-- 替换这里的图片路径 -->
+                        <img src="../images/about/character-nijika.jpg" alt="伊地知虹夏">
+                    </div>
+                    <div class="character-name">伊地知虹夏</div>
+                    <div class="character-role">鼓手 · 乐队发起人</div>
+                </div>
+                <div class="character-item">
+                    <div class="character-avatar">
+                        <!-- 替换这里的图片路径 -->
+                        <img src="../images/about/character-ryo.jpg" alt="山田凉">
+                    </div>
+                    <div class="character-name">山田凉</div>
+                    <div class="character-role">贝斯手</div>
+                </div>
+                <div class="character-item">
+                    <div class="character-avatar">
+                        <!-- 替换这里的图片路径 -->
+                        <img src="../images/about/character-kita.jpg" alt="喜多郁代">
+                    </div>
+                    <div class="character-name">喜多郁代</div>
+                    <div class="character-role">吉他手 · 主唱</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="../index.html">首页</a>
+                <a href="about.html">作品介绍</a>
+                <a href="characters.html">角色介绍</a>
+                <a href="music.html">音乐专辑</a>
+                <a href="production.html">制作幕后</a>
+                <a href="gallery.html">粉丝画廊</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

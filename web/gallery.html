@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粉丝画廊 - 孤独摇滚小站</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .gallery-categories {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .category-btn {
+            background: white;
+            border: 2px solid #3498db;
+            color: #3498db;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .category-btn.active,
+        .category-btn:hover {
+            background: #3498db;
+            color: white;
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .gallery-item {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .gallery-info {
+            padding: 1rem;
+        }
+        
+        .gallery-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        
+        .gallery-desc {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+        
+        .fan-art-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid #ecf0f1;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .section-title {
+            color: #2c3e50;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-subtitle {
+            color: #7f8c8d;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .fan-art-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .fan-art-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .fan-art-image {
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(135deg, #9b59b6, #3498db);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.9rem;
+        }
+        
+        .fan-art-info {
+            padding: 0.8rem;
+            text-align: center;
+        }
+        
+        .artist-name {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .credit-note {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><a href="../index.html" style="color: #f39c12; text-decoration: none;">孤独摇滚小站</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">作品介绍</a></li>
+                <li class="nav-item"><a href="characters.html" class="nav-link">角色介绍</a></li>
+                <li class="nav-item"><a href="music.html" class="nav-link">音乐专辑</a></li>
+                <li class="nav-item"><a href="production.html" class="nav-link">制作幕后</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link active">粉丝画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container" style="padding: 2rem 0; min-height: 60vh;">
+        <h1 style="text-align: center; margin-bottom: 2rem; color: #2c3e50;">粉丝画廊</h1>
+        <p style="text-align: center; margin-bottom: 3rem; color: #666; max-width: 800px; margin-left: auto; margin-right: auto;">
+            欣赏《孤独摇滚！》的精彩画面、官方艺术图以及粉丝们的创意作品。
+        </p>
+        
+        <!-- 画廊分类 -->
+        <div class="gallery-categories">
+            <button class="category-btn active">全部</button>
+            <button class="category-btn">官方海报</button>
+            <button class="category-btn">动画截图</button>
+            <button class="category-btn">角色特写</button>
+            <button class="category-btn">乐队现场</button>
+        </div>
+        
+        <!-- 官方画廊 -->
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <div class="gallery-image">主视觉图</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">动画主视觉图</div>
+                    <div class="gallery-desc">《孤独摇滚！》TV动画官方主视觉海报，展现了四位主角在舞台上的英姿。</div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">角色海报</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">后藤一里角色海报</div>
+                    <div class="gallery-desc">主角后藤一里的单人宣传海报，完美捕捉了她害羞又可爱的气质。</div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">乐队练习</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">STARRY现场</div>
+                    <div class="gallery-desc">結束バンド在Livehouse "STARRY" 的首次演出场景。</div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">专辑封面</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">結束バンド专辑封面</div>
+                    <div class="gallery-desc">乐队首张专辑《結束バンド》的官方封面设计。</div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">表情包</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">小孤独表情包</div>
+                    <div class="gallery-desc">后藤一里在动画中的经典表情截图，深受粉丝喜爱。</div>
+                </div>
+            </div>
+            
+            <div class="gallery-item">
+                <div class="gallery-image">宣传绘</div>
+                <div class="gallery-info">
+                    <div class="gallery-title">节日特别宣传图</div>
+                    <div class="gallery-desc">动画播出期间发布的节日主题官方宣传图。</div>
+                </div>
+            </div>
+        </div>
+        
+<!-- 粉丝作品区域 -->
+<div class="fan-art-section">
+    <div class="section-header">
+        <h2 class="section-title">粉丝创作</h2>
+        <p class="section-subtitle">
+            来自全球粉丝的精彩创作，展现了大家对《孤独摇滚！》的热爱与创意。
+        </p>
+    </div>
+    
+    <div class="fan-art-grid">
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #1</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+        
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #2</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+        
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #3</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+        
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #4</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+        
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #5</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+        
+        <div class="fan-art-item">
+            <div class="fan-art-image">粉丝绘画 #6</div>
+            <div class="fan-art-info">
+                <div class="artist-name">粉丝作品</div>
+            </div>
+        </div>
+    </div>
+</div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="../index.html">首页</a>
+                <a href="about.html">作品介绍</a>
+                <a href="characters.html">角色介绍</a>
+                <a href="music.html">音乐专辑</a>
+                <a href="production.html">制作幕后</a>
+                <a href="gallery.html">粉丝画廊</a>
+            </div>
+            <p class="copyright">
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // 简单的画廊分类功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryBtns = document.querySelectorAll('.category-btn');
+            
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    // 为当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    // 这里可以添加实际的内容过滤逻辑
+                    // 目前只是演示UI交互
+                });
+            });
+        });
+    </script>
+</body>
+</html>

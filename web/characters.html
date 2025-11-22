@@ -1,0 +1,1549 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>角色介绍 - 孤独摇滚小站</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        /* 详细信息展开动画 */
+        .character-details {
+            transition: all 0.5s ease;
+        }
+
+        /* 时间线动画 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 表格行悬停效果 */
+        .comparison-table tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        .comparison-table tbody tr:hover {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            transform: scale(1.02);
+        }
+
+        /* 角色颜色标识增强 */
+        .character-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+            border: 2px solid white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }        
+        /* 角色介绍主容器 */
+        .characters-hero {
+            background: linear-gradient(135deg, 
+                rgba(255, 182, 193, 0.9) 0%, 
+                rgba(255, 182, 193, 0.9) 25%, 
+                rgba(255, 250, 205, 0.9) 25%, 
+                rgba(255, 250, 205, 0.9) 50%, 
+                rgba(173, 216, 230, 0.9) 50%, 
+                rgba(173, 216, 230, 0.9) 75%, 
+                rgba(255, 107, 107, 0.9) 75%, 
+                rgba(255, 107, 107, 0.9) 100%);
+            background-size: 200% 200%;
+            padding: 4rem 2rem;
+            text-align: center;
+            color: #2c3e50;
+            border-radius: 0 0 30px 30px;
+            margin-bottom: 3rem;
+            position: relative;
+            overflow: hidden;
+            animation: gradientShift 15s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 0%;
+            }
+            25% {
+                background-position: 100% 0%;
+            }
+            50% {
+                background-position: 100% 100%;
+            }
+            75% {
+                background-position: 0% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .characters-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: 1;
+        }
+        
+        .characters-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .characters-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.8);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .characters-hero h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .characters-hero p {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* 角色统计区域 */
+        .characters-stats {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin: 3rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            min-width: 150px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* 角色网格布局 */
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+            padding: 0 1rem;
+            align-items: start; /*让项目从顶部开始对齐 */
+        }
+        
+        /* 角色卡片样式 */
+        /* .character-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 3px solid transparent;
+        } */
+        .character-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 3px solid transparent;
+            height: auto; /* 确保高度自适应 */
+            min-height: 650px; /* 设置一个最小高度，根据你的内容调整 */
+        } 
+        .character-card.expanded {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); /* 展开时阴影更深 */
+            z-index: 10; /* 确保展开的卡片在最上层 */
+        }
+        /* 为每个角色卡片设置对应的颜色边框 */
+        .character-card:nth-child(1) {
+            border-color: #FFB6C1; /* 后藤一里 - 粉红色 */
+        }
+        
+        .character-card:nth-child(2) {
+            border-color: #FFFACD; /* 伊地知虹夏 - 亮黄色 */
+        }
+        
+        .character-card:nth-child(3) {
+            border-color: #ADD8E6; /* 山田凉 - 蓝色 */
+        }
+        
+        .character-card:nth-child(4) {
+            border-color: #FF6B6B; /* 喜多郁代 - 红色 */
+        }
+        
+        .character-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        
+        /* 角色图片容器 */
+        .character-image-container {
+            width: 100%;
+            height: 280px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .character-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .character-card:hover .character-image {
+            transform: scale(1.08);
+        }
+        
+        /* 角色颜色覆盖层 */
+        .character-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        
+        .character-card:nth-child(1) .character-overlay {
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.8), rgba(255, 105, 180, 0.8));
+        }
+        
+        .character-card:nth-child(2) .character-overlay {
+            background: linear-gradient(135deg, rgba(255, 250, 205, 0.8), rgba(255, 215, 0, 0.8));
+        }
+        
+        .character-card:nth-child(3) .character-overlay {
+            background: linear-gradient(135deg, rgba(173, 216, 230, 0.8), rgba(30, 144, 255, 0.8));
+        }
+        
+        .character-card:nth-child(4) .character-overlay {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.8), rgba(255, 71, 87, 0.8));
+        }
+        
+        .character-card:hover .character-overlay {
+            opacity: 1;
+        }
+        
+        /* 角色信息区域 */
+        .character-info {
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .character-name {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+            font-size: 1.6rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .character-name::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        /* 为每个角色名称添加对应的颜色下划线 */
+        .character-card:nth-child(1) .character-name::after {
+            background: #FFB6C1;
+        }
+        
+        .character-card:nth-child(2) .character-name::after {
+            background: #FFFACD;
+        }
+        
+        .character-card:nth-child(3) .character-name::after {
+            background: #ADD8E6;
+        }
+        
+        .character-card:nth-child(4) .character-name::after {
+            background: #FF6B6B;
+        }
+        
+        .character-card:hover .character-name::after {
+            width: 80px;
+        }
+        
+        .character-role {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .character-desc {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .character-quote {
+            margin-top: 1rem;
+            padding: 1.2rem;
+            border-radius: 10px;
+            font-style: italic;
+            color: #555;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        /* 为每个角色引用添加对应的颜色背景 */
+        .character-card:nth-child(1) .character-quote {
+            background: rgba(255, 182, 193, 0.1);
+            border-left: 4px solid #FFB6C1;
+        }
+        
+        .character-card:nth-child(2) .character-quote {
+            background: rgba(255, 250, 205, 0.2);
+            border-left: 4px solid #FFFACD;
+        }
+        
+        .character-card:nth-child(3) .character-quote {
+            background: rgba(173, 216, 230, 0.1);
+            border-left: 4px solid #ADD8E6;
+        }
+        
+        .character-card:nth-child(4) .character-quote {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 4px solid #FF6B6B;
+        }
+        
+        .character-card:hover .character-quote {
+            transform: translateX(10px);
+        }
+        
+        /* 角色属性标签 */
+        .character-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .character-tag {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* 为每个角色标签添加对应的颜色 */
+        .character-card:nth-child(1) .character-tag {
+            background: rgba(255, 182, 193, 0.2);
+            color: #c44569;
+            border: 1px solid rgba(255, 182, 193, 0.5);
+        }
+        
+        .character-card:nth-child(2) .character-tag {
+            background: rgba(255, 250, 205, 0.3);
+            color: #e1b12c;
+            border: 1px solid rgba(255, 250, 205, 0.6);
+        }
+        
+        .character-card:nth-child(3) .character-tag {
+            background: rgba(173, 216, 230, 0.2);
+            color: #3742fa;
+            border: 1px solid rgba(173, 216, 230, 0.5);
+        }
+        
+        .character-card:nth-child(4) .character-tag {
+            background: rgba(255, 107, 107, 0.2);
+            color: #c23616;
+            border: 1px solid rgba(255, 107, 107, 0.5);
+        }
+        
+        /* 角色卡片装饰元素 */
+        .character-decoration {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            opacity: 0.1;
+            z-index: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .character-card:nth-child(1) .character-decoration {
+            background: #FFB6C1;
+            top: 10px;
+            right: 10px;
+            border-radius: 50%;
+        }
+        
+        .character-card:nth-child(2) .character-decoration {
+            background: #FFFACD;
+            bottom: 10px;
+            left: 10px;
+            transform: rotate(45deg);
+        }
+        
+        .character-card:nth-child(3) .character-decoration {
+            background: #ADD8E6;
+            top: 50%;
+            right: 10px;
+            border-radius: 50%;
+        }
+        
+        .character-card:nth-child(4) .character-decoration {
+            background: #FF6B6B;
+            bottom: 10px;
+            right: 10px;
+            transform: rotate(45deg);
+        }
+        
+        .character-card:hover .character-decoration {
+            opacity: 0.2;
+            transform: scale(1.2) rotate(180deg);
+        }
+        
+        /* 新增：角色技能条 */
+        .character-skills {
+            margin-top: 1.5rem;
+        }
+        
+        .skill-item {
+            margin-bottom: 1rem;
+        }
+        
+        .skill-name {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+        
+        .skill-bar {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .skill-progress {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+        
+        /* 为每个角色技能条设置对应的颜色 */
+        .character-card:nth-child(1) .skill-progress {
+            background: linear-gradient(90deg, #FFB6C1, #FF69B4);
+        }
+        
+        .character-card:nth-child(2) .skill-progress {
+            background: linear-gradient(90deg, #FFFACD, #FFD700);
+        }
+        
+        .character-card:nth-child(3) .skill-progress {
+            background: linear-gradient(90deg, #ADD8E6, #1E90FF);
+        }
+        
+        .character-card:nth-child(4) .skill-progress {
+            background: linear-gradient(90deg, #FF6B6B, #FF4757);
+        }
+        
+        /* 新增：角色关系网络 */
+        .character-relationships {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px dashed #eee;
+        }
+        
+        .relationship-title {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+        
+        .relationship-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .relationship-item {
+            padding: 0.4rem 0.8rem;
+            background: #f8f9fa;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .relationship-icon {
+            font-size: 0.9rem;
+        }
+        
+        /* 新增：乐队时间线 */
+        .band-timeline {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 4rem 0;
+        }
+        
+        .timeline-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .timeline-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: linear-gradient(to bottom, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            transform: translateX(-50%);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            width: 50%;
+            padding: 0 2rem;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item:nth-child(odd) {
+            left: 0;
+        }
+        
+        .timeline-item:nth-child(even) {
+            left: 50%;
+        }
+        
+        .timeline-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .timeline-item:nth-child(odd) .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 10px solid white;
+        }
+        
+        .timeline-item:nth-child(even) .timeline-content::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: -10px;
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 10px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-text {
+            color: #666;
+            line-height: 1.6;
+        }
+        
+        /* 新增：角色对比表格 */
+        .character-comparison {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin: 4rem 0;
+        }
+        
+        .comparison-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            font-size: 2rem;
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .comparison-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B);
+            border-radius: 2px;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+        }
+        
+        .comparison-table th, .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .comparison-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .comparison-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .character-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .characters-hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .characters-hero p {
+                font-size: 1.1rem;
+            }
+            
+            .characters-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .character-image-container {
+                height: 220px;
+            }
+            
+            .timeline::before {
+                left: 20px;
+            }
+            
+            .timeline-item {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 0;
+            }
+            
+            .timeline-item:nth-child(even) {
+                left: 0;
+            }
+            
+            .timeline-item:nth-child(odd) .timeline-content::after,
+            .timeline-item:nth-child(even) .timeline-content::after {
+                left: -10px;
+                border-right: 10px solid white;
+                border-left: none;
+            }
+            
+            .comparison-table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+        
+        /* 页面加载动画 */
+        .character-card {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+        
+        .character-card:nth-child(1) {
+            animation-delay: 0.1s;
+        }
+        
+        .character-card:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .character-card:nth-child(3) {
+            animation-delay: 0.3s;
+        }
+        
+        .character-card:nth-child(4) {
+            animation-delay: 0.4s;
+        }
+        
+        .band-timeline, .character-comparison {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease 0.5s forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h1><a href="../index.html" style="color: #f39c12; text-decoration: none;">孤独摇滚小站</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="../index.html" class="nav-link">首页</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">作品介绍</a></li>
+                <li class="nav-item"><a href="characters.html" class="nav-link active">角色介绍</a></li>
+                <li class="nav-item"><a href="music.html" class="nav-link">音乐专辑</a></li>
+                <li class="nav-item"><a href="production.html" class="nav-link">制作幕后</a></li>
+                <li class="nav-item"><a href="gallery.html" class="nav-link">粉丝画廊</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="characters-hero">
+        <div class="characters-hero-content">
+            <h1>角色介绍</h1>
+            <p>认识「結束バンド」的成员们——四位性格迥异却因音乐走到一起的女孩。</p>
+        </div>
+    </section>
+
+    <main class="container" style="padding: 0 0 3rem 0; min-height: 60vh;">
+        <!-- 角色统计区域 -->
+        <div class="characters-stats">
+            <div class="stat-item">
+                <div class="stat-number">4</div>
+                <div class="stat-label">乐队成员</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">12</div>
+                <div class="stat-label">专辑曲目</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">3</div>
+                <div class="stat-label">乐器类型</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10万+</div>
+                <div class="stat-label">YouTube粉丝</div>
+            </div>
+        </div>
+
+        <div class="characters-grid">
+            <!-- 后藤一里 -->
+            <div class="character-card">
+                <div class="character-decoration"></div>
+                <div class="character-image-container">
+                    <img class="character-image" src="../images/characters/hitori.jpg" alt="后藤一里 - 吉他手">
+                    <div class="character-overlay">吉他天才 · 社恐少女</div>
+                </div>
+                <div class="character-info">
+                    <h2 class="character-name">后藤一里</h2>
+                    <div class="character-role">主吉他手 · 网红「guitarhero」</div>
+                    <p class="character-desc">
+                        绰号"波奇酱"，极度怕生的吉他天才少女。在网络上是知名的吉他手"guitarhero"，现实中却不敢与人交流。加入乐队是她走出自我封闭的第一步。
+                    </p>
+                    
+                    <!-- 新增：角色技能条 -->
+                    <div class="character-skills">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>吉他技巧</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>社交能力</span>
+                                <span>15%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 15%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>创作能力</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 80%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增：角色关系网络 -->
+                    <div class="character-relationships">
+                        <div class="relationship-title">重要关系</div>
+                        <div class="relationship-list">
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎸</span>
+                                <span>伊地知虹夏</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎵</span>
+                                <span>山田凉</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🌟</span>
+                                <span>喜多郁代</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-tags">
+                        <span class="character-tag">社恐</span>
+                        <span class="character-tag">吉他天才</span>
+                        <span class="character-tag">粉色运动衫</span>
+                    </div>
+                    <div class="character-quote">
+                        "我不要工作……"
+                    </div>
+                    <!-- 详细信息展开区域 -->
+                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
+                        <div class="detail-section">
+                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
+                            <div class="detail-content" style="line-height: 1.6; color: #555;">
+                                <p><strong>昵称来源：</strong>「波奇」源自名字发音与「孤独」相近</p>
+                                <p><strong>网络身份：</strong>吉他英雄(Guitar Hero)，YouTube频道拥有数万粉丝</p>
+                                <p><strong>性格特点：</strong>严重社交恐惧症，内心活动丰富但表达能力差</p>
+                                <p><strong>家庭背景：</strong>有父母和妹妹，父亲也曾搞过乐队</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 添加展开按钮 -->
+                    <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                        显示详细资料
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 伊地知虹夏 -->
+            <div class="character-card">
+                <div class="character-decoration"></div>
+                <div class="character-image-container">
+                    <img class="character-image" src="../images/characters/nijika.jpg" alt="伊地知虹夏 - 鼓手">
+                    <div class="character-overlay">阳光鼓手 · 乐队核心</div>
+                </div>
+                <div class="character-info">
+                    <h2 class="character-name">伊地知虹夏</h2>
+                    <div class="character-role">鼓手 · 乐队发起人</div>
+                    <p class="character-desc">
+                        开朗活泼的鼓手，乐队的组织者和精神支柱。在Livehouse"STARRY"打工，发现了后藤一里的才华并邀请她加入乐队。她的阳光性格是乐队凝聚力的来源。
+                    </p>
+                    
+                    <!-- 新增：角色技能条 -->
+                    <div class="character-skills">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>鼓技</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>领导力</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>社交能力</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 95%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增：角色关系网络 -->
+                    <div class="character-relationships">
+                        <div class="relationship-title">重要关系</div>
+                        <div class="relationship-list">
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎸</span>
+                                <span>后藤一里</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎵</span>
+                                <span>山田凉</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🌟</span>
+                                <span>喜多郁代</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-tags">
+                        <span class="character-tag">阳光开朗</span>
+                        <span class="character-tag">鼓手</span>
+                        <span class="character-tag">STARRY员工</span>
+                    </div>
+                    <div class="character-quote">
+                        "音乐就是要大家一起玩才开心啊！"
+                    </div>
+                    <!-- 详细信息展开区域 -->
+                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
+                        <div class="detail-section">
+                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
+                            <div class="detail-content" style="line-height: 1.6; color: #555;">
+                                <p><strong>工作地点：</strong>在Livehouse "STARRY" 打工，姐姐是店长</p>
+                                <p><strong>乐队角色：</strong>乐队发起人和精神支柱，发现并邀请后藤一里加入</p>
+                                <p><strong>性格特点：</strong>开朗活泼，善于照顾他人，是乐队的凝聚力来源</p>
+                                <p><strong>音乐理念：</strong>认为音乐是让人快乐的，应该大家一起享受</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 添加展开按钮 -->
+                    <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                        显示详细资料
+                    </button>                    
+                </div>
+            </div>
+            
+            <!-- 山田凉 -->
+            <div class="character-card">
+                <div class="character-decoration"></div>
+                <div class="character-image-container">
+                    <img class="character-image" src="../images/characters/ryo.jpg" alt="山田凉 - 贝斯手">
+                    <div class="character-overlay">冷静贝斯手 · 神秘少女</div>
+                </div>
+                <div class="character-info">
+                    <h2 class="character-name">山田凉</h2>
+                    <div class="character-role">贝斯手</div>
+                    <p class="character-desc">
+                        冷静沉着、略显古怪的贝斯手。对音乐有着独特的理解，经常说出一些令人费解但有深意的话。经济状况似乎不太好，但对音乐的热情从未减退。
+                    </p>
+                    
+                    <!-- 新增：角色技能条 -->
+                    <div class="character-skills">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>贝斯技巧</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>音乐理解</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 92%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>理财能力</span>
+                                <span>20%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 20%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增：角色关系网络 -->
+                    <div class="character-relationships">
+                        <div class="relationship-title">重要关系</div>
+                        <div class="relationship-list">
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎸</span>
+                                <span>后藤一里</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎵</span>
+                                <span>伊地知虹夏</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🌟</span>
+                                <span>喜多郁代</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-tags">
+                        <span class="character-tag">冷静沉着</span>
+                        <span class="character-tag">贝斯手</span>
+                        <span class="character-tag">经济困难</span>
+                    </div>
+                    <div class="character-quote">
+                        "借我点钱吧。"
+                    </div>
+                    <!-- 详细信息展开区域 -->
+                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
+                        <div class="detail-section">
+                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
+                            <div class="detail-content" style="line-height: 1.6; color: #555;">
+                                <p><strong>音乐风格：</strong>对音乐有独特理解，喜欢实验性的演奏和音色</p>
+                                <p><strong>经济状况：</strong>经常经济困难，会把钱都花在音乐设备和唱片上</p>
+                                <p><strong>性格特点：</strong>冷静沉着，言行神秘，经常说出令人费解但有深意的话</p>
+                                <p><strong>特长：</strong>贝斯演奏技巧高超，音乐理论知识丰富</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 添加展开按钮 -->
+                    <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                        显示详细资料
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 喜多郁代 -->
+            <div class="character-card">
+                <div class="character-decoration"></div>
+                <div class="character-image-container">
+                    <img class="character-image" src="../images/characters/kita.jpg" alt="喜多郁代 - 吉他手">
+                    <div class="character-overlay">热情主唱 · 吉他新手</div>
+                </div>
+                <div class="character-info">
+                    <h2 class="character-name">喜多郁代</h2>
+                    <div class="character-role">吉他手 · 主唱</div>
+                    <p class="character-desc">
+                        阳光开朗的现充少女，后藤一里的同班同学。原本对吉他一窍不通，但因为崇拜山田凉而加入乐队，进步神速。她的热情和活力为乐队注入了新的能量。
+                    </p>
+                    
+                    <!-- 新增：角色技能条 -->
+                    <div class="character-skills">
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>歌唱能力</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 90%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>吉他技巧</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 70%"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-name">
+                                <span>学习能力</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar">
+                                <div class="skill-progress" style="width: 85%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 新增：角色关系网络 -->
+                    <div class="character-relationships">
+                        <div class="relationship-title">重要关系</div>
+                        <div class="relationship-list">
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎸</span>
+                                <span>后藤一里</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🎵</span>
+                                <span>伊地知虹夏</span>
+                            </div>
+                            <div class="relationship-item">
+                                <span class="relationship-icon">🌟</span>
+                                <span>山田凉</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="character-tags">
+                        <span class="character-tag">阳光开朗</span>
+                        <span class="character-tag">主唱</span>
+                        <span class="character-tag">进步神速</span>
+                    </div>
+                    <div class="character-quote">
+                        "一里同学，教我弹吉他吧！"
+                    </div>
+                    <!-- 详细信息展开区域 -->
+                    <div class="character-details" style="display: none; margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.03); border-radius: 10px;">
+                        <div class="detail-section">
+                            <h4 style="color: #2c3e50; margin-bottom: 0.8rem;">角色详情</h4>
+                            <div class="detail-content" style="line-height: 1.6; color: #555;">
+                                <p><strong>加入原因：</strong>因为崇拜山田凉而加入乐队，从零开始学习吉他</p>
+                                <p><strong>学习能力：</strong>进步神速，很快就能够参与乐队演出</p>
+                                <p><strong>性格特点：</strong>阳光开朗，典型的现充，善于交际，是后藤一里的同班同学</p>
+                                <p><strong>校园生活：</strong>在学校很受欢迎，经常参加各种社交活动</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 添加展开按钮 -->
+                    <button class="toggle-details-btn" style="margin-top: 1rem; background: linear-gradient(135deg, #e74c3c, #f39c12); color: white; border: none; padding: 0.6rem 1.2rem; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; width: 100%;">
+                        显示详细资料
+                    </button>                    
+                </div>
+            </div>
+        </div>
+        <!-- 新增：角色成长时间线 -->
+        <section class="character-growth" style="background: white; padding: 3rem 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 3rem 0;">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #2c3e50; position: relative; display: inline-block; left: 50%; transform: translateX(-50%);">
+                角色成长历程
+                <span style="position: absolute; bottom: -10px; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, #FFB6C1, #FFFACD, #ADD8E6, #FF6B6B); border-radius: 2px;"></span>
+            </h2>
+            
+            <div class="growth-timeline" style="position: relative; max-width: 800px; margin: 0 auto;">
+                <div class="timeline-item" style="display: flex; margin-bottom: 2rem; opacity: 0; animation: fadeInUp 0.8s ease 0.6s forwards;">
+                    <div class="timeline-marker" style="width: 20px; height: 20px; background: #FFB6C1; border-radius: 50%; margin-right: 1.5rem; flex-shrink: 0; margin-top: 5px;"></div>
+                    <div class="timeline-content" style="flex: 1;">
+                        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">初中时期 · 开始音乐之路</h4>
+                        <p style="color: #666; line-height: 1.6;">后藤一里初中一年级时接触吉他开始自学，因憧憬乐队活动而刻苦练习，每天练习吉他6小时以上。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="display: flex; margin-bottom: 2rem; opacity: 0; animation: fadeInUp 0.8s ease 0.8s forwards;">
+                    <div class="timeline-marker" style="width: 20px; height: 20px; background: #FFB6C1; border-radius: 50%; margin-right: 1.5rem; flex-shrink: 0; margin-top: 5px;"></div>
+                    <div class="timeline-content" style="flex: 1;">
+                        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">高中入学 · 遇见虹夏</h4>
+                        <p style="color: #666; line-height: 1.6;">被伊地知虹夏发现吉他才华，受邀加入结束乐队，这是她第一次真正尝试与人交流合作。</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item" style="display: flex; margin-bottom: 2rem; opacity: 0; animation: fadeInUp 0.8s ease 1s forwards;">
+                    <div class="timeline-marker" style="width: 20px; height: 20px; background: #FFB6C1; border-radius: 50%; margin-right: 1.5rem; flex-shrink: 0; margin-top: 5px;"></div>
+                    <div class="timeline-content" style="flex: 1;">
+                        <h4 style="color: #2c3e50; margin-bottom: 0.5rem;">首次登台 · 突破自我</h4>
+                        <p style="color: #666; line-height: 1.6;">在STARRY的首次演出虽然紧张，但成功完成表演，开始逐渐克服社交恐惧。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- 新增：乐队时间线 -->
+        <div class="band-timeline">
+            <h2 class="timeline-title">結束バンド发展历程</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022年10月</div>
+                        <div class="timeline-text">伊地知虹夏发现后藤一里的吉他才华，邀请她加入乐队，結束バンド正式成立。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022年11月</div>
+                        <div class="timeline-text">乐队在STARRY举办首场演出，虽然紧张但获得观众好评。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2022年12月（现实）</div>
+                        <div class="timeline-text">发行首张专辑《結束バンド》，收录动画中的所有歌曲。</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <div class="timeline-date">2023年5月（现实）</div>
+                        <div class="timeline-text">发行第二张专辑《光の中へ》，收录两首新歌及伴奏版本。</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 新增：角色对比表格 -->
+        <div class="character-comparison">
+            <h2 class="comparison-title">角色对比</h2>
+            <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>角色</th>
+            <th>代表颜色</th>
+            <th>乐器/担当</th>
+            <th>性格特点</th>
+            <th>经典台词</th>
+            <th>声优</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>后藤一里</strong></td>
+                    <td><span class="character-color" style="background: #FFB6C1;"></span>粉红色</td>
+                    <td>主音吉他/作词</td>
+                    <td>社恐、吉他天才、网络红人</td>
+                    <td>"我不要工作……"</td>
+                    <td>青山吉能</td>
+                </tr>
+                <tr>
+                    <td><strong>伊地知虹夏</strong></td>
+                    <td><span class="character-color" style="background: #FFFACD;"></span>亮黄色</td>
+                    <td>鼓手/队长</td>
+                    <td>开朗、领导力强、阳光</td>
+                    <td>"音乐就是要大家一起玩才开心啊！"</td>
+                    <td>铃代纱弓</td>
+                </tr>
+                <tr>
+                    <td><strong>山田凉</strong></td>
+                    <td><span class="character-color" style="background: #ADD8E6;"></span>蓝色</td>
+                    <td>贝斯手</td>
+                    <td>冷静、神秘、经济困难</td>
+                    <td>"借我点钱吧。"</td>
+                    <td>水野朔</td>
+                </tr>
+                <tr>
+                    <td><strong>喜多郁代</strong></td>
+                    <td><span class="character-color" style="background: #FF6B6B;"></span>红色</td>
+                    <td>吉他/主唱</td>
+                    <td>阳光、学习能力强、现充</td>
+                    <td>"一里同学，教我弹吉他吧！"</td>
+                    <td>长谷川育美</td>
+                </tr>
+            </tbody>
+        </table>
+            <!-- <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>角色</th>
+                        <th>代表颜色</th>
+                        <th>乐器</th>
+                        <th>性格特点</th>
+                        <th>口头禅</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>后藤一里</td>
+                        <td><span class="character-color" style="background: #FFB6C1;"></span>粉红色</td>
+                        <td>吉他</td>
+                        <td>社恐、天才吉他手</td>
+                        <td>"我不要工作……"</td>
+                    </tr>
+                    <tr>
+                        <td>伊地知虹夏</td>
+                        <td><span class="character-color" style="background: #FFFACD;"></span>亮黄色</td>
+                        <td>鼓</td>
+                        <td>开朗、领导力强</td>
+                        <td>"音乐就是要大家一起玩才开心啊！"</td>
+                    </tr>
+                    <tr>
+                        <td>山田凉</td>
+                        <td><span class="character-color" style="background: #ADD8E6;"></span>蓝色</td>
+                        <td>贝斯</td>
+                        <td>冷静、神秘</td>
+                        <td>"借我点钱吧。"</td>
+                    </tr>
+                    <tr>
+                        <td>喜多郁代</td>
+                        <td><span class="character-color" style="background: #FF6B6B;"></span>红色</td>
+                        <td>吉他/主唱</td>
+                        <td>阳光、学习能力强</td>
+                        <td>"一里同学，教我弹吉他吧！"</td>
+                    </tr>
+                </tbody>
+            </table> -->
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-nav">
+                <a href="../index.html">首页</a>
+                <a href="about.html">作品介绍</a>
+                <a href="characters.html">角色介绍</a>
+                <a href="music.html">音乐专辑</a>
+                <a href="production.html">制作幕后</a>
+                <a href="gallery.html">粉丝画廊</a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- <script>
+        // 技能条动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            // 创建Intersection Observer来检测技能条是否在视口中
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBar = entry.target;
+                        const width = skillBar.style.width;
+                        skillBar.style.width = '0';
+                        
+                        // 延迟一点时间开始动画，创造更好的视觉效果
+                        setTimeout(() => {
+                            skillBar.style.transition = 'width 1.5s ease';
+                            skillBar.style.width = width;
+                        }, 300);
+                        
+                        // 停止观察这个元素
+                        observer.unobserve(skillBar);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            // 观察所有技能条
+            skillBars.forEach(skillBar => {
+                observer.observe(skillBar);
+            });
+        });
+    // 角色详细信息展开功能
+    document.addEventListener('DOMContentLoaded', function() {
+        // 详细信息切换
+        const toggleButtons = document.querySelectorAll('.toggle-details-btn');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const details = this.previousElementSibling;
+                const isHidden = details.style.display === 'none';
+                
+                if (isHidden) {
+                    details.style.display = 'block';
+                    this.textContent = '收起详细资料';
+                    // 添加展开动画
+                    details.style.opacity = '0';
+                    details.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        details.style.transition = 'all 0.5s ease';
+                        details.style.opacity = '1';
+                        details.style.transform = 'translateY(0)';
+                    }, 50);
+                } else {
+                    details.style.opacity = '0';
+                    details.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        details.style.display = 'none';
+                        this.textContent = '显示详细资料';
+                    }, 300);
+                }
+            });
+        });
+        
+        // 角色卡片悬停增强效果
+        const characterCards = document.querySelectorAll('.character-card');
+        characterCards.forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-15px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+        
+        // 表格行悬停效果
+        const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+        tableRows.forEach(row => {
+            row.addEventListener('mouseenter', function() {
+                this.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+                this.style.transform = 'scale(1.02)';
+                this.style.transition = 'all 0.3s ease';
+            });
+            
+            row.addEventListener('mouseleave', function() {
+                this.style.background = '';
+                this.style.transform = 'scale(1)';
+            });
+        });
+    });        
+    </script> -->
+    <script>
+        // 技能条动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const skillBars = document.querySelectorAll('.skill-progress');
+            
+            // 创建Intersection Observer来检测技能条是否在视口中
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skillBar = entry.target;
+                        const width = skillBar.style.width;
+                        skillBar.style.width = '0';
+                        
+                        // 延迟一点时间开始动画，创造更好的视觉效果
+                        setTimeout(() => {
+                            skillBar.style.transition = 'width 1.5s ease';
+                            skillBar.style.width = width;
+                        }, 300);
+                        
+                        // 停止观察这个元素
+                        observer.unobserve(skillBar);
+                    }
+                });
+            }, { threshold: 0.5 });
+            
+            // 观察所有技能条
+            skillBars.forEach(skillBar => {
+                observer.observe(skillBar);
+            });
+
+            // ============ 新增的代码从这里开始 ============
+            
+            // 角色详细信息展开功能
+            // 详细信息切换
+            const toggleButtons = document.querySelectorAll('.toggle-details-btn');
+            
+            toggleButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const details = this.previousElementSibling;
+                    const isHidden = details.style.display === 'none';
+                    
+                    if (isHidden) {
+                        details.style.display = 'block';
+                        this.textContent = '收起详细资料';
+                        // 添加展开动画
+                        details.style.opacity = '0';
+                        details.style.transform = 'translateY(10px)';
+                        setTimeout(() => {
+                            details.style.transition = 'all 0.5s ease';
+                            details.style.opacity = '1';
+                            details.style.transform = 'translateY(0)';
+                        }, 50);
+                    } else {
+                        details.style.opacity = '0';
+                        details.style.transform = 'translateY(10px)';
+                        setTimeout(() => {
+                            details.style.display = 'none';
+                            this.textContent = '显示详细资料';
+                        }, 300);
+                    }
+                });
+            });
+            
+            // 角色卡片悬停增强效果
+            const characterCards = document.querySelectorAll('.character-card');
+            characterCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-15px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+            
+            // 表格行悬停效果
+            const tableRows = document.querySelectorAll('.comparison-table tbody tr');
+            tableRows.forEach(row => {
+                row.addEventListener('mouseenter', function() {
+                    this.style.background = 'linear-gradient(135deg, #f8f9fa, #e9ecef)';
+                    this.style.transform = 'scale(1.02)';
+                    this.style.transition = 'all 0.3s ease';
+                });
+                
+                row.addEventListener('mouseleave', function() {
+                    this.style.background = '';
+                    this.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>    
+</body>
+</html>
