@@ -7,7 +7,7 @@ class LineEffects {
             color: '100,149,237', // RGB颜色值
             opacity: 0.7,         // 透明度
             count: 99,            // 线条数量
-            zIndex:99,         // 层级
+            zIndex: -1,         // 层级
             ...options
         };
         

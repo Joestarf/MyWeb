@@ -8,7 +8,7 @@
     left: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    z-index: 9997 !important; /* 比光标特效低一层 */
+    z-index: 99 !important; /* 比光标特效低一层 */
     pointer-events: none !important;
 }
 
