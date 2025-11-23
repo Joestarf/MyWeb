@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>音乐专辑 - 孤独摇滚小站</title>
     <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/cursor-effects.css">
+    <link rel="stylesheet" href="../css/line-effects.css"> 
     <style>
         /* 页面背景 - 四人主题色渐变 */
         body {
@@ -687,7 +689,7 @@
         }
     </style>
 </head>
-<body>
+<body data-auto-cursor-effects data-auto-line-effects data-auto-theme>
     <!-- 浮动背景元素 -->
     <div class="floating-elements">
         <div class="floating-element"></div>
@@ -1220,6 +1222,9 @@
             particlesContainer.appendChild(particle);
         }
     });
-    </script>    
+    </script>
+    <script src="../js/cursor-effects.js"></script>
+    <script src="../js/line-effects.js"></script>
+    <script src="../js/theme-manager.js"></script>        
 </body>
 </html>
